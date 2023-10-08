@@ -30,5 +30,6 @@
     },
     "clangd.arguments": [
         "--header-insertion=never"
-    ]
+    ],
+    "clangd.path": "/usr/bin/clangd-12"
 }

@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "split_util.h"
 
 void matrix_init_kb(void) {
-    setPinOutput(CAPS_LOCK_LED_PIN);
+    // Disable permanent CAPS LOCK LED until I can figure out how to make it work
+    // setPinOutput(CAPS_LOCK_LED_PIN);
     matrix_init_user();
 }
 
