@@ -1,4 +1,5 @@
 #pragma once
 
-#define TAPPING_TOGGLE 2
-#define TAPPING_TERM 140
+#define TAPPING_TOGGLE 3
+#define TAPPING_TERM 125
+#define RETRO_TAPPING
