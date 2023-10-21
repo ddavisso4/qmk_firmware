@@ -5,7 +5,9 @@ enum layer_names {
     NAV,
     FN1,
     FN2,
-    UTIL
+    UTIL,
+    ALT_TAB_SWITCH,
+    WIN_TAB_SWITCH
 };
 
 enum custom_keycodes {
@@ -13,7 +15,9 @@ enum custom_keycodes {
     MC_TG_BKMK,
     MC_NAV_BKMK,
     MC_TEST,
-    MC_EXP_SYNC
+    MC_EXP_SYNC,
+    MC_CLR_ALT_TAB,
+    MC_CLR_WIN_TAB
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -84,8 +88,55 @@ KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,KC_NO                  ,    
 KC_NO   ,KC_NO     ,RGB_TOG   ,RGB_VAD  ,RGB_VAI   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,KC_NO     ,KC_NO    ,KC_NO     ,KC_NO                  ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_TRNS   ,KC_NO   ,
+            KC_NO),
+
+
+    [ALT_TAB_SWITCH] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_NO   ,S(KC_TAB) ,MC_CLR_ALT_TAB  ,KC_TAB  ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO),
+
+    [WIN_TAB_SWITCH] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_NO   ,KC_LEFT  ,MC_CLR_WIN_TAB  ,KC_RIGHT ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO)
 };
+
+// Blank layer
+// [APP_SWITCH] = LAYOUT_all(
+//             KC_NO, KC_NO,
+// KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+//             KC_NO, KC_NO, KC_NO,
+// KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+//             KC_NO, KC_NO, KC_NO,
+// KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+//             KC_NO, KC_NO, KC_NO,
+// KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+//             KC_NO, KC_NO, KC_NO,
+// KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+//             KC_NO)
+
+void win_switch_app(uint8_t num) {
+    register_code(KC_LGUI);
+    tap_code_delay(num, 50);
+    unregister_code(KC_LGUI);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -106,6 +157,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("[") "s", 20);
                 return false;
+            }
+            return true;
+        case MC_CLR_ALT_TAB:
+            if (record->event.pressed) {
+                clear_keyboard();
+                layer_move(BASE);
+            }
+            return true;
+        case MC_CLR_WIN_TAB:
+            if (record->event.pressed) {
+                tap_code(KC_ENTER);
+                layer_move(BASE);
             }
             return true;
 
@@ -131,9 +194,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(0, A(KC_TAB)):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(A(KC_TAB)); // Tap
+                layer_move(ALT_TAB_SWITCH);
+                register_code(KC_LALT);
+                tap_code_delay(KC_TAB, 50);
             } else if (record->event.pressed) {
-                tap_code16(G(KC_TAB)); // Hold
+                layer_move(WIN_TAB_SWITCH);
+                register_code(KC_LGUI);
+                tap_code_delay(KC_TAB, 50);
+                unregister_code(KC_LGUI);
             }
             return false;
         case LT(-1, C(KC_TAB)):
@@ -195,63 +263,63 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_DEL); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_1)); // Hold
+                win_switch_app(KC_1);
             }
             return false;
         case LT(0,KC_UP):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_UP); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_2)); // Hold
+                win_switch_app(KC_2);
             }
             return false;
         case LT(0,KC_BSPC):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_BSPC); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_3)); // Hold
+                win_switch_app(KC_3);
             }
             return false;
         case LT(-1,KC_LEFT):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_LEFT); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_4)); // Hold
+                win_switch_app(KC_4);
             }
             return false;
         case LT(0,KC_DOWN):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_DOWN); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_5)); // Hold
+                win_switch_app(KC_5);
             }
             return false;
         case LT(-1,KC_RGHT):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_RGHT); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_6)); // Hold
+                win_switch_app(KC_6);
             }
             return false;
         case LT(0,C(KC_X)):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_X)); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_7)); // Hold
+                win_switch_app(KC_7);
             }
             return false;
         case LT(0,C(KC_C)):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_C)); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_8)); // Hold
+                win_switch_app(KC_8);
             }
             return false;
         case LT(0,C(KC_V)):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_V)); // Tap
             } else if (record->event.pressed) {
-                tap_code16(G(KC_9)); // Hold
+                win_switch_app(KC_9);
             }
             return false;
         case LT(0,KC_Y):
