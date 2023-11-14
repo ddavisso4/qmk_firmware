@@ -17,7 +17,11 @@ enum custom_keycodes {
     MC_TEST,
     MC_EXP_SYNC,
     MC_CLR_ALT_TAB,
-    MC_CLR_WIN_TAB
+    MC_CLR_WIN_TAB,
+    MC_DEF,
+    MC_COMMENT,
+    MC_UNCMNT,
+    MC_GO_BASE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -31,7 +35,7 @@ KC_CAPS  ,KC_A      ,KC_S      ,KC_D    ,KC_F    ,KC_G                ,         
             KC_NO, KC_NO, KC_NO,
 KC_LSFT  ,KC_BSLS   ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M     ,KC_COMM  ,KC_DOT   ,KC_SLSH  ,KC_RSFT    ,TT(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
-KC_LCTL  ,KC_LGUI   ,KC_LALT   ,TG(FN2) ,TT(FN1) ,TT(NAV)             ,         KC_SPC   ,KC_SPC   ,KC_RALT  ,KC_RGUI  ,KC_RCTL  ,RCS(KC_M)  ,G(KC_L)   ,
+KC_LCTL  ,KC_LGUI   ,KC_LALT   ,TT(FN2) ,TT(FN1) ,TT(NAV)             ,         KC_SPC   ,KC_SPC   ,KC_RALT  ,KC_RGUI  ,KC_RCTL  ,RCS(KC_M)  ,G(KC_L)   ,
             KC_NO),
 
 
@@ -39,11 +43,11 @@ KC_LCTL  ,KC_LGUI   ,KC_LALT   ,TG(FN2) ,TT(FN1) ,TT(NAV)             ,         
             KC_NO, KC_NO,
 MC_ADMIN    ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))      ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LSA(KC_UP)         ,KC_NO          ,KC_NO          ,KC_NO          ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)   ,C(KC_DEL)       ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)       ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
+RCS(KC_L)   ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)       ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 KC_ESC      ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)         ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)     ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,KC_NO      ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER    ,LT(0, KC_HOME)   ,C(KC_Z)          ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LSA(KC_DOWN)   ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
+KC_ENTER    ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LSA(KC_DOWN)   ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 KC_TRNS     ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS        ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
         KC_NO),
@@ -53,13 +57,13 @@ KC_TRNS     ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5   
             KC_NO, KC_NO,
 C(KC_R)             ,C(KC_1)     ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO       ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F9               ,C(KC_F10)   ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         LT(0,KC_Y)   ,LT(0,KC_U)   ,LT(0,KC_I)  ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F9               ,C(KC_F10)   ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         MC_COMMENT   ,C(KC_U)     ,C(KC_I)      ,MC_UNCMNT  ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,S(KC_F2)    ,LT(0,KC_S)   ,LT(0,KC_D)    ,C(KC_F)       ,C(KC_G)                            ,         C(KC_H)      ,MC_EXP_SYNC  ,C(KC_K)     ,C(KC_L)    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F3               ,S(KC_F2)    ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,MC_EXP_SYNC  ,C(KC_K)     ,C(KC_L)    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,MC_TG_BKMK  ,C(KC_GRV)    ,RCS(KC_GRV)   ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,         C(KC_N)      ,KC_NO        ,C(KC_COMM)  ,C(KC_DOT)  ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO       ,LT(0,KC_Z)   ,LT(-1,MC_DEF)  ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,         C(KC_N)      ,KC_NO        ,C(KC_COMM)  ,C(KC_DOT)  ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_TRNS             ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO        ,KC_NO       ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,
+MC_TG_BKMK          ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO        ,KC_NO       ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -67,9 +71,9 @@ KC_TRNS             ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC
             KC_NO, KC_NO,
 KC_NO       ,KC_MUTE    ,KC_VOLD    ,KC_VOLU   ,KC_MPLY   ,KC_MPRV   ,KC_MNXT           ,        KC_NO            ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO       ,RCS(KC_I)  ,C(KC_2)    ,KC_NO     ,KC_NO     ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO       ,RCS(KC_I)  ,C(KC_2)    ,C(KC_E)   ,KC_NO     ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_1)   ,RCS(KC_5)  ,C(KC_Q)    ,KC_NO     ,KC_NO     ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+RCS(KC_1)   ,RCS(KC_5)  ,C(KC_Q)    ,KC_NO     ,C(KC_F)   ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 A(KC_LEFT)  ,A(KC_RGHT) ,RCS(KC_R)  ,C(KC_R)   ,KC_NO     ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -93,33 +97,34 @@ KC_NO   ,KC_NO     ,KC_NO     ,KC_NO    ,KC_NO     ,KC_NO                  ,    
 
     [ALT_TAB_SWITCH] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,S(KC_TAB) ,MC_CLR_ALT_TAB  ,KC_TAB  ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,S(KC_TAB) ,MC_CLR_ALT_TAB  ,KC_TAB  ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_GO_BASE ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,MC_CLR_ALT_TAB         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
+    // Blank layer
     [WIN_TAB_SWITCH] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,KC_LEFT  ,MC_CLR_WIN_TAB  ,KC_RIGHT ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_GO_BASE ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_1    ,KC_2    ,KC_3    ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_4    ,KC_5    ,KC_6    ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_7    ,KC_8    ,KC_9    ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_CLR_WIN_TAB         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO)
 };
 
 // Blank layer
-// [APP_SWITCH] = LAYOUT_all(
+// [NEW_LAYER_NAME] = LAYOUT_all(
 //             KC_NO, KC_NO,
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO, KC_NO, KC_NO,
@@ -133,9 +138,14 @@ KC_NO   ,KC_NO    ,KC_NO           ,KC_NO    ,KC_NO   ,KC_NO                  , 
 //             KC_NO)
 
 void win_switch_app(uint8_t num) {
+    layer_move(WIN_TAB_SWITCH);
     register_code(KC_LGUI);
-    tap_code_delay(num, 50);
-    unregister_code(KC_LGUI);
+    tap_code_delay(num, 30);
+}
+
+void reset_to_base() {
+    clear_keyboard();
+    layer_move(BASE);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -160,15 +170,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
         case MC_CLR_ALT_TAB:
-            if (record->event.pressed) {
-                clear_keyboard();
-                layer_move(BASE);
+            if (!record->event.pressed) {
+                reset_to_base();
+                return false; // Maybe this will cause issues?
             }
             return true;
         case MC_CLR_WIN_TAB:
             if (record->event.pressed) {
-                tap_code(KC_ENTER);
-                layer_move(BASE);
+                reset_to_base();
+                return false; // Maybe this will cause issues?
+            }
+            return true;
+        case MC_COMMENT:
+            if (record->event.pressed) {
+                SEND_STRING_DELAY(SS_LCTL("kc"), 20);
+                return false;
+            }
+            return true;
+        case MC_UNCMNT:
+            if (record->event.pressed) {
+                SEND_STRING_DELAY(SS_LCTL("ku"), 20);
+                return false;
+            }
+            return true;
+        case MC_GO_BASE:
+            if (record->event.pressed) {
+                reset_to_base();
+                return false;
             }
             return true;
 
@@ -198,10 +226,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_LALT);
                 tap_code_delay(KC_TAB, 50);
             } else if (record->event.pressed) {
-                layer_move(WIN_TAB_SWITCH);
-                register_code(KC_LGUI);
-                tap_code_delay(KC_TAB, 50);
-                unregister_code(KC_LGUI);
+                tap_code16(G(KC_TAB));
             }
             return false;
         case LT(-1, C(KC_TAB)):
@@ -322,27 +347,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 win_switch_app(KC_9);
             }
             return false;
-        case LT(0,KC_Y):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_Y)); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kd"), 20);
-            }
-            return false;
-        case LT(0,KC_U):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_U)); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kc"), 20);
-            }
-            return false;
-        case LT(0,KC_I):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_I)); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("ku"), 20);
-            }
-            return false;
         case LT(0,KC_S):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_S)); // Tap
@@ -354,7 +358,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_F)); // Tap
             } else if (record->event.pressed) {
-                tap_code16(KC_F3);
+                tap_code16(RCS(KC_F));
             }
             return false;
         case LT(0,KC_B):
@@ -397,6 +401,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(C(KC_R)); // Tap
             } else if (record->event.pressed) {
                 tap_code16(KC_PRINT_SCREEN);
+            }
+            return false;
+        case LT(-2,KC_DEL):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(C(KC_DEL)); // Tap
+            } else if (record->event.pressed) {
+                win_switch_app(KC_0);
+            }
+            return false;
+        case LT(-1,MC_DEF):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(RCS(KC_GRV)); // Tap
+            } else if (record->event.pressed) {
+                tap_code16(C(KC_GRV));
+            }
+            return false;
+        case LT(0,KC_Z):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(C(KC_Z)); // Tap
+            } else if (record->event.pressed) {
+                tap_code16(C(KC_Y));
+            }
+            return false;
+        case LT(0,C(KC_G)):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(C(KC_G)); // Tap
+            } else if (record->event.pressed) {
+                SEND_STRING_DELAY(SS_LCTL("kd"), 20);
             }
             return false;
     }
