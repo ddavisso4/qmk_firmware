@@ -143,7 +143,7 @@ void win_switch_app(uint8_t num) {
     tap_code_delay(num, 30);
 }
 
-void reset_to_base() {
+void reset_to_base(void) {
     clear_keyboard();
     layer_move(BASE);
 }
