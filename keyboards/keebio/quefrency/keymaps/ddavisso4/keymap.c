@@ -55,15 +55,15 @@ KC_TRNS     ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-C(KC_R)             ,C(KC_1)     ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO       ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,C(KC_1)     ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F9               ,C(KC_F10)   ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         MC_COMMENT   ,C(KC_U)     ,C(KC_I)      ,MC_UNCMNT  ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F9               ,C(KC_F10)   ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,S(KC_F2)    ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,MC_EXP_SYNC  ,C(KC_K)     ,C(KC_L)    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F3               ,S(KC_F2)    ,LT(0,KC_S)   ,LCA(KC_P)     ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,MC_EXP_SYNC  ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO       ,LT(0,KC_Z)   ,LT(-1,MC_DEF)  ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,         C(KC_N)      ,KC_NO        ,C(KC_COMM)  ,C(KC_DOT)  ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO       ,LT(0,KC_Z)   ,LT(-1,MC_DEF)  ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)      ,MC_COMMENT   ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO        ,KC_NO       ,KC_NO      ,KC_NO   ,KC_NO   ,KC_NO   ,
+MC_TG_BKMK          ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO        ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -119,7 +119,7 @@ KC_NO   ,KC_NO   ,KC_4    ,KC_5    ,KC_6    ,KC_NO                  ,        KC_
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO   ,KC_NO   ,KC_7    ,KC_8    ,KC_9    ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_CLR_WIN_TAB         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO)
 };
 
@@ -138,8 +138,8 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_CLR_WIN_TAB         ,        KC_
 //             KC_NO)
 
 void win_switch_app(uint8_t num) {
-    layer_move(WIN_TAB_SWITCH);
     register_code(KC_LGUI);
+    layer_move(WIN_TAB_SWITCH);
     tap_code_delay(num, 30);
 }
 
@@ -149,6 +149,9 @@ void reset_to_base(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Use this to print details for every keystrike
+    // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+
     switch (keycode) {
         // Send string macros
         case MC_ADMIN:
@@ -170,15 +173,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
         case MC_CLR_ALT_TAB:
-            if (!record->event.pressed) {
+            if (record->event.pressed) {
                 reset_to_base();
-                return false; // Maybe this will cause issues?
+                return false;
             }
             return true;
         case MC_CLR_WIN_TAB:
-            if (record->event.pressed) {
+            unregister_code(KC_LGUI);
+            reset_to_base();
+            return false;
+        case TT(NAV):
+            // Special case where pressed on base layer and released on win tab layer
+            if(IS_LAYER_ON(WIN_TAB_SWITCH) && !record->event.pressed) {
+                unregister_code(KC_LGUI);
                 reset_to_base();
-                return false; // Maybe this will cause issues?
+                return false;
             }
             return true;
         case MC_COMMENT:
@@ -380,13 +389,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(S(KC_END)); // Tap
             } else if (record->event.pressed) {
                 tap_code16(RCS(KC_END));
-            }
-            return false;
-        case LT(0,KC_D):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(LCA(KC_P)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(LSA(KC_D));
             }
             return false;
         case LT(0,KC_F11):
