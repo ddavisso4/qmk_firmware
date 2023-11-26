@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include <data.h>
 
 enum layer_names {
     BASE,
@@ -15,13 +16,14 @@ enum custom_keycodes {
     MC_TG_BKMK,
     MC_NAV_BKMK,
     MC_TEST,
-    MC_EXP_SYNC,
     MC_CLR_ALT_TAB,
     MC_CLR_WIN_TAB,
     MC_DEF,
     MC_COMMENT,
     MC_UNCMNT,
-    MC_GO_BASE
+    MC_GO_BASE,
+    MC_NAV_S_UP,
+    MC_NAV_S_DWN
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -41,29 +43,29 @@ KC_LCTL  ,KC_LGUI   ,KC_LALT   ,TT(FN2) ,TT(FN1) ,TT(NAV)             ,         
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-MC_ADMIN    ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))      ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LSA(KC_UP)         ,KC_NO          ,KC_NO          ,KC_NO          ,KC_NO      ,KC_NO          ,KC_NO          ,
+MC_ADMIN       ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))      ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LT(1, MC_NAV_S_UP) ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)   ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)       ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
+RCS(KC_L)      ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_ESC      ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)         ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)     ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,KC_NO      ,C(KC_ENTER)    ,C(KC_ENTER)    ,
+KC_ESC         ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)         ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,KC_NO      ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER    ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LSA(KC_DOWN)   ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
+LT(0,KC_ENTER) ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_TRNS     ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS        ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
+KC_TRNS        ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
         KC_NO),
 
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,C(KC_1)     ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F9               ,C(KC_F10)   ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F9               ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,S(KC_F2)    ,LT(0,KC_S)   ,LCA(KC_P)     ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,MC_EXP_SYNC  ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LCA(KC_P)     ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO       ,LT(0,KC_Z)   ,LT(-1,MC_DEF)  ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)      ,MC_COMMENT   ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,KC_TRNS     ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO        ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
+MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -156,19 +158,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // Send string macros
         case MC_ADMIN:
             if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_TAP(X_TAB) SS_TAP(X_TAB) SS_TAP(X_ENTER) SS_TAP(X_TAB) SS_TAP(X_TAB) SS_TAP(X_ENTER), 100);
+                SEND_STRING(
+                    SS_TAP(X_TAB)
+                    SS_DELAY(25)
+                    SS_TAP(X_TAB)
+                    SS_DELAY(25)
+                    SS_TAP(X_ENTER)
+                    SS_DELAY(100)
+                    SS_TAP(X_TAB)
+                    SS_DELAY(25)
+                    SS_TAP(X_TAB)
+                    SS_DELAY(25)
+                    SS_TAP(X_ENTER)
+                    SS_DELAY(50)
+                    SS_TAP(X_TAB)
+                    SS_DELAY(25)
+                    ADMIN_ACCOUNT
+                    SS_DELAY(25)
+                    SS_DOWN(X_LSFT) SS_TAP(X_TAB) SS_UP(X_LSFT));
                 return false;
             }
             return true;
         case MC_TG_BKMK:
             if (record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("kk"), 20);
-                return false;
-            }
-            return true;
-        case MC_EXP_SYNC:
-            if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("[") "s", 20);
                 return false;
             }
             return true;
@@ -431,6 +444,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(C(KC_G)); // Tap
             } else if (record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("kd"), 20);
+            }
+            return false;
+        case LT(1, MC_NAV_S_UP):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(LSA(KC_UP)); // Tap
+            } else if (record->event.pressed) {
+                tap_code16(RCS(KC_UP));
+            }
+            return false;
+        case LT(0, MC_NAV_S_DWN):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(LSA(KC_DOWN)); // Tap
+            } else if (record->event.pressed) {
+                tap_code16(RCS(KC_DOWN));
+            }
+            return false;
+        case LT(0,KC_ENTER):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_ENTER); // Tap
+            } else if (record->event.pressed) {
+                tap_code16(KC_SPACE);
+            }
+            return false;
+        case LT(0,S(KC_F2)):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(S(KC_F2)); // Tap
+            } else if (record->event.pressed) {
+                SEND_STRING_DELAY(SS_LCTL("[") "s", 20);
             }
             return false;
     }
