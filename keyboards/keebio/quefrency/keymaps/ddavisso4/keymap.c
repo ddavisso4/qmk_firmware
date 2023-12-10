@@ -59,9 +59,9 @@ KC_TRNS        ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5
             KC_NO, KC_NO,
 LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F9               ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)         ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LCA(KC_P)     ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -469,9 +469,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(0,S(KC_F2)):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_F2)); // Tap
+                tap_code16(S(KC_F2)); // Tap, Add file
             } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("[") "s", 20);
+                tap_code16(S(KC_F1)); // Press, Add folder
+            }
+            return false;
+        case LT(0,KC_D):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(C(KC_D));                  // Tap, Duplicate Line
+            } else if (record->event.pressed) {
+                SEND_STRING_DELAY(SS_LCTL("[") "s", 20); // Press, Sync Solution
+            }
+            return false;
+        case LT(-1,KC_F9):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_F9);               // Tap, Breakpoint
+            } else if (record->event.pressed) {
+                tap_code16(LCA(KC_P));           // Press, Debug
             }
             return false;
     }
