@@ -43,15 +43,15 @@ KC_LCTL  ,KC_LGUI   ,KC_LALT   ,TT(FN2) ,TT(FN1) ,TT(NAV)             ,         
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-MC_ADMIN       ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))      ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LT(1, MC_NAV_S_UP) ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO      ,KC_NO          ,KC_NO          ,
+MC_ADMIN   ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))      ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LT(1, MC_NAV_S_UP) ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)      ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
+RCS(KC_L)  ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)           ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,KC_NO      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_ESC         ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)         ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,KC_NO      ,C(KC_ENTER)    ,C(KC_ENTER)    ,
+KC_ESC     ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)         ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,KC_NO      ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-LT(0,KC_ENTER) ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
+KC_ENTER   ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))         ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_TRNS        ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
+KC_SPACE   ,KC_TRNS          ,KC_TRNS          ,LT(0,KC_PRINT_SCREEN) ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
         KC_NO),
 
 
@@ -458,13 +458,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(LSA(KC_DOWN)); // Tap
             } else if (record->event.pressed) {
                 tap_code16(RCS(KC_DOWN));
-            }
-            return false;
-        case LT(0,KC_ENTER):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_ENTER); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(KC_SPACE);
             }
             return false;
         case LT(0,S(KC_F2)):
