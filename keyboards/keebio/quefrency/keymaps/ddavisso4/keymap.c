@@ -74,15 +74,15 @@ MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       
 
 	[FN2] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO       ,KC_MUTE    ,KC_VOLD    ,KC_VOLU   ,KC_MPLY   ,KC_MPRV   ,KC_MNXT           ,        KC_NO            ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MNXT         ,KC_MUTE        ,KC_VOLD    ,KC_VOLU   ,KC_MPLY   ,KC_MPRV   ,KC_MNXT           ,        KC_NO            ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO       ,RCS(KC_I)  ,C(KC_2)    ,C(KC_E)   ,KC_NO     ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MPRV         ,RCS(KC_I)      ,C(KC_2)    ,C(KC_E)   ,KC_NO     ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_1)   ,RCS(KC_5)  ,C(KC_Q)    ,KC_NO     ,C(KC_F)   ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+RCS(KC_1)       ,RCS(KC_5)      ,C(KC_Q)    ,KC_NO     ,C(KC_F)   ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-A(KC_LEFT)  ,A(KC_RGHT) ,RCS(KC_R)  ,C(KC_R)   ,KC_NO     ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_NAV  ,KC_NO          ,RCS(KC_R)  ,C(KC_R)   ,KC_NO     ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO       ,KC_NO      ,KC_NO      ,KC_TRNS   ,KC_NO     ,KC_TRNS                      ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_NO      ,KC_TRNS   ,KC_NO     ,KC_NO                        ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
