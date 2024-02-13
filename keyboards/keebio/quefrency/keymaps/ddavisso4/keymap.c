@@ -26,7 +26,8 @@ enum custom_keycodes {
     MC_NAV_S_DWN,
     LAYER_LOCK_NAV,
     LAYER_LOCK_FN1,
-    LAYER_LOCK_FN2
+    LAYER_LOCK_FN2,
+    RESET_LAYER_LOCK
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -62,13 +63,13 @@ KC_SPACE        ,KC_APPLICATION   ,KC_PRINT_SCREEN  ,C(KC_R)           ,KC_F5   
             KC_NO, KC_NO,
 LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)         ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)         ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                    ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,KC_NO                              ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
+MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -82,7 +83,7 @@ RCS(KC_1)       ,RCS(KC_5)      ,C(KC_Q)    ,KC_NO     ,C(KC_F)   ,KC_NO        
             KC_NO, KC_NO, KC_NO,
 LAYER_LOCK_NAV  ,KC_NO          ,RCS(KC_R)  ,C(KC_R)   ,KC_NO     ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_NO      ,KC_TRNS   ,KC_NO     ,KC_NO                        ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_NO      ,KC_TRNS   ,KC_NO     ,RESET_LAYER_LOCK             ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -141,6 +142,8 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO)
 
+static bool layer_locked = false;
+
 void win_switch_app(uint8_t num) {
     register_code(KC_LGUI);
     layer_move(WIN_TAB_SWITCH);
@@ -148,6 +151,7 @@ void win_switch_app(uint8_t num) {
 }
 
 void reset_to_base(void) {
+    layer_locked = false;
     clear_keyboard();
     layer_move(BASE);
 }
@@ -218,29 +222,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case MO(NAV):
             // Special case where pressed on base layer and released on win tab layer
-            if(IS_LAYER_ON(WIN_TAB_SWITCH) && !record->event.pressed) {
+            if (IS_LAYER_ON(WIN_TAB_SWITCH) && !record->event.pressed) {
                 unregister_code(KC_LGUI);
                 reset_to_base();
                 return false;
             }
-            // Already on NAV and pressed means we are in lock mode and want to return to BASE
-            else if(IS_LAYER_ON(NAV) && record->event.pressed) {
-                reset_to_base();
+            // If in layer_locked mode, we want to reset on release
+            else if (layer_locked) {
+                if (!record->event.pressed) {
+                    reset_to_base();
+                }
                 return false;
             }
             return true;
-        case MO(FN1):
-            if(IS_LAYER_ON(FN1) && record->event.pressed) {
+        case RESET_LAYER_LOCK:
+            if (layer_locked && !record->event.pressed) {
                 reset_to_base();
-                return false;
             }
-            return true;
-        case MO(FN2):
-            if(IS_LAYER_ON(FN2) && record->event.pressed) {
-                reset_to_base();
-                return false;
-            }
-            return true;
+            return false;
         case MC_COMMENT:
             if (record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("kc"), 20);
@@ -260,13 +259,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
         case LAYER_LOCK_NAV:
-            layer_move(NAV);
+            layer_locked = true;
+            layer_on(NAV);
             return false;
         case LAYER_LOCK_FN1:
-            layer_move(FN1);
+            layer_locked = true;
+            layer_on(FN1);
             return false;
         case LAYER_LOCK_FN2:
-            layer_move(FN2);
+            layer_locked = true;
+            layer_on(FN2);
             return false;
 
         // Tap-Hold Hold Overrides
