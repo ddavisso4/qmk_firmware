@@ -55,7 +55,7 @@ KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC
             KC_NO, KC_NO, KC_NO,
 KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,KC_NO          ,KC_NO      ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,KC_PRINT_SCREEN  ,C(KC_R)           ,KC_F5          ,KC_TRNS                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,KC_PRINT_SCREEN  ,C(KC_R)           ,KC_F5          ,MO(NAV)                                            ,       C(KC_SPACE)     ,C(KC_SPACE)        ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS    ,KC_TRNS        ,
         KC_NO),
 
 
@@ -145,6 +145,10 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 static bool layer_locked = false;
 
 void win_switch_app(uint8_t num) {
+    if(layer_locked) {
+        return;
+    }
+
     register_code(KC_LGUI);
     layer_move(WIN_TAB_SWITCH);
     tap_code_delay(num, 30);
@@ -235,6 +239,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;
+        case MO(FN2):
+            if (layer_locked) {
+                return false;
+            }
+            return true;
         case RESET_LAYER_LOCK:
             if (layer_locked && !record->event.pressed) {
                 reset_to_base();
@@ -260,15 +269,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
         case LAYER_LOCK_NAV:
             layer_locked = true;
-            layer_on(NAV);
+            layer_move(NAV);
             return false;
         case LAYER_LOCK_FN1:
             layer_locked = true;
-            layer_on(FN1);
+            layer_move(FN1);
             return false;
         case LAYER_LOCK_FN2:
             layer_locked = true;
-            layer_on(FN2);
+            layer_move(FN2);
             return false;
 
         // Tap-Hold Hold Overrides
