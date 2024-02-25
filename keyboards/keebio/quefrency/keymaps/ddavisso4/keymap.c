@@ -27,7 +27,8 @@ enum custom_keycodes {
     LAYER_LOCK_NAV,
     LAYER_LOCK_FN1,
     LAYER_LOCK_FN2,
-    RESET_LAYER_LOCK
+    RESET_LAYER_LOCK,
+    ENABLE_CONSOLE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -61,7 +62,7 @@ KC_SPACE        ,KC_APPLICATION   ,KC_PRINT_SCREEN  ,C(KC_R)           ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,C(KC_R)      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,LSA(KC_C)   ,LSA(KC_R)   ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(-1,KC_F9)         ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                    ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -89,11 +90,11 @@ LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_NO      ,KC_TRNS   ,KC_NO     ,RESET_LAYER_L
 
 	[UTIL] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,KC_F1     ,KC_F2     ,KC_F3    ,KC_F4     ,KC_F5   ,KC_F6                    ,        KC_F7   ,KC_F8                         ,KC_F9                         ,KC_F10                     ,KC_F11   ,KC_F12    ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_F1     ,KC_F2     ,KC_F3    ,KC_F4     ,KC_F5   ,KC_F6                    ,        KC_F7   ,KC_F8                         ,KC_F9                         ,KC_F10                     ,KC_F11   ,KC_F12    ,KC_NO   ,KC_NO           ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_INS    ,KC_PAUS   ,KC_SCRL  ,KC_NUM    ,KC_NO                             ,        KC_NO   ,QK_DYNAMIC_TAPPING_TERM_PRINT , QK_DYNAMIC_TAPPING_TERM_DOWN ,QK_DYNAMIC_TAPPING_TERM_UP ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_INS    ,KC_PAUS   ,KC_SCRL  ,KC_NUM    ,KC_NO                             ,        KC_NO   ,QK_DYNAMIC_TAPPING_TERM_PRINT , QK_DYNAMIC_TAPPING_TERM_DOWN ,QK_DYNAMIC_TAPPING_TERM_UP ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO           ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,KC_NO                             ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO   ,
+KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,KC_NO                             ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,ENABLE_CONSOLE  ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,RGB_TOG   ,RGB_VAD        ,RGB_VAI        ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -142,16 +143,24 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO)
 
+static bool console_enabled = false;
+
 static bool layer_locked = false;
 
-void win_switch_app(uint8_t num) {
+const int double_tap_timeout_ms = 100;
+static bool double_tap_repeat_pending;
+static bool double_tap_repeat_active;
+static uint16_t double_tap_timer;
+static uint16_t double_tap_key;
+
+void win_switch_app(uint16_t num) {
     if(layer_locked) {
         return;
     }
 
     register_code(KC_LGUI);
     layer_move(WIN_TAB_SWITCH);
-    tap_code_delay(num, 30);
+    tap_code16_delay(num, 30);
 }
 
 void reset_to_base(void) {
@@ -160,13 +169,84 @@ void reset_to_base(void) {
     layer_move(BASE);
 }
 
+void keyboard_pre_init_user(void) {
+    double_tap_repeat_pending = false;
+    double_tap_repeat_active = false;
+    double_tap_timer = double_tap_timeout_ms;
+}
+
+bool general_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold, bool enable_repeat, bool as_win_tab) {
+    // Hold
+    if(record->tap.count == 0) {
+        if(record->event.pressed) {
+            if(as_win_tab) {
+                win_switch_app(hold);
+            }
+            else {
+                tap_code16(hold);
+            }
+        }
+    }
+    // Tap
+    else {
+        if(record->event.pressed) {
+            tap_code16(tap);
+            if(enable_repeat && record->tap.count > 1) {
+                double_tap_timer = timer_read();
+                double_tap_key = tap;
+                double_tap_repeat_pending = true;
+            }
+        }
+        else {
+            if(double_tap_repeat_pending) {
+                double_tap_repeat_pending = false;
+            }
+
+            if(double_tap_repeat_active) {
+                unregister_code16(tap);
+            }
+        }
+    }
+    return false;
+}
+
+bool simple_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold) {
+    return general_tap_hold(record, tap, hold, false, false);
+}
+
+bool hold_override(keyrecord_t *record, uint16_t hold) {
+    if (!record->tap.count && record->event.pressed) {
+        tap_code16(hold);
+        return false;
+    }
+    return true;
+}
+
+bool repeat_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold) {
+    return general_tap_hold(record, tap, hold, true, false);
+}
+
+bool win_tab_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold, bool enable_repeat) {
+    return general_tap_hold(record, tap, hold, enable_repeat, true);
+}
+
+void matrix_scan_user(void) {
+  if (double_tap_repeat_pending) {
+    if (timer_elapsed(double_tap_timer) > double_tap_timeout_ms) {
+        double_tap_repeat_pending = false;
+        double_tap_repeat_active = true;
+        register_code16(double_tap_key);
+    }
+  }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Use this to print details for every keystrike
-    // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    if(console_enabled) {
+        uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    }
 
     switch (keycode) {
-
-        // Send string macros
         case LT(0,MC_ADMIN):
             if (record->tap.count && record->event.pressed) {
                 SEND_STRING(
@@ -279,27 +359,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             layer_locked = true;
             layer_move(FN2);
             return false;
+        case ENABLE_CONSOLE:
+            console_enabled = !console_enabled;
 
-        // Tap-Hold Hold Overrides
+        // Tap-Hold Overrides
         case LT(0, KC_HOME):
-            if (!record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_HOME));
-                return false;
-            }
-            return true;
+            return hold_override(record, C(KC_HOME));
         case LT(0, KC_END):
-            if (!record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_END));
-                return false;
-            }
-            return true;
+            return hold_override(record, C(KC_END));
         case LT(0, C(KC_F4)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_F4)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(A(KC_F4)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_F4), A(KC_F4));
         case LT(0, A(KC_TAB)):
             if (record->tap.count && record->event.pressed) {
                 layer_move(ALT_TAB_SWITCH);
@@ -310,19 +379,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(-1, C(KC_TAB)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_TAB)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_TAB)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_TAB), RCS(KC_TAB));
         case LT(0, C(KC_T)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_T)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_T)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_T), RCS(KC_T));
         case LT(0, MC_NAV_BKMK):
             if (record->tap.count && record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("kn"), 20); // Tap
@@ -331,11 +390,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(0, KC_F5):
-            if (!record->tap.count && record->event.pressed) {
-                tap_code16(KC_F8);
-                return false;
-            }
-            return true;
+            return hold_override(record, KC_F8);
         case LT(0, MC_TEST):
             if (record->tap.count && record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("r") "t", 20); // Tap
@@ -344,152 +399,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(0, C(KC_E)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_E)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(C(KC_G)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_E), C(KC_G));
         case LT(0,G(C(KC_LEFT))):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(G(C(KC_LEFT))); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(A(KC_LEFT)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, G(C(KC_LEFT)), A(KC_LEFT));
         case LT(0,G(C(KC_RIGHT))):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(G(C(KC_RIGHT))); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(A(KC_RGHT)); // Hold
-            }
-            return false;
+            return simple_tap_hold(record, G(C(KC_RIGHT)), A(KC_RGHT));
         case LT(-1,KC_DEL):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_DEL); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_1);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_DEL, KC_1, true);
         case LT(0,KC_UP):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_UP); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_2);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_UP, KC_2, true);
         case LT(0,KC_BSPC):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_BSPC); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_3);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_BSPC, KC_3, true);
         case LT(-1,KC_LEFT):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_LEFT); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_4);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_LEFT, KC_4, true);
         case LT(0,KC_DOWN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_DOWN); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_5);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_DOWN, KC_5, true);
         case LT(-1,KC_RGHT):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_RGHT); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_6);
-            }
-            return false;
+            return win_tab_tap_hold(record, KC_RGHT, KC_6, true);
         case LT(0,C(KC_X)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_X)); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_7);
-            }
-            return false;
+            return win_tab_tap_hold(record, C(KC_X), KC_7, false);
         case LT(0,C(KC_C)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_C)); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_8);
-            }
-            return false;
+            return win_tab_tap_hold(record, C(KC_C), KC_8, false);
         case LT(0,C(KC_V)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_V)); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_9);
-            }
-            return false;
+            return win_tab_tap_hold(record, C(KC_V), KC_9, false);
         case LT(0,KC_S):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_S)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_S));
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_S), RCS(KC_S));
         case LT(0,KC_F):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_F)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_F));
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_F), RCS(KC_F));
         case LT(0,KC_B):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_B)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_B));
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_B), RCS(KC_B));
         case LT(-1,KC_HOME):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_HOME)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_HOME));
-            }
-            return false;
+            return simple_tap_hold(record, S(KC_HOME), RCS(KC_HOME));
         case LT(-1,KC_END):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_END)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_END));
-            }
-            return false;
+            return simple_tap_hold(record, S(KC_END), RCS(KC_END));
         case LT(0,KC_F11):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_F11); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(C(KC_E));
-            }
-            return false;
+            return simple_tap_hold(record, KC_F11, C(KC_E));
         case LT(-2,KC_DEL):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_DEL)); // Tap
-            } else if (record->event.pressed) {
-                win_switch_app(KC_0);
-            }
-            return false;
+            return win_tab_tap_hold(record, C(KC_DEL), KC_0, false);
         case LT(-1,MC_DEF):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(RCS(KC_GRV)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(C(KC_GRV));
-            }
-            return false;
+            return simple_tap_hold(record, RCS(KC_GRV), C(KC_GRV));
         case LT(0,KC_Z):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_Z)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(C(KC_Y));
-            }
-            return false;
+            return simple_tap_hold(record, C(KC_Z), C(KC_Y));
         case LT(0,C(KC_G)):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_G)); // Tap
@@ -498,26 +448,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(1, MC_NAV_S_UP):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(LSA(KC_UP)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_UP));
-            }
-            return false;
+            return simple_tap_hold(record, LSA(KC_UP), RCS(KC_UP));
         case LT(0, MC_NAV_S_DWN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(LSA(KC_DOWN)); // Tap
-            } else if (record->event.pressed) {
-                tap_code16(RCS(KC_DOWN));
-            }
-            return false;
+            return simple_tap_hold(record, LSA(KC_DOWN), RCS(KC_DOWN));
         case LT(0,S(KC_F2)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_F2)); // Tap, Add file
-            } else if (record->event.pressed) {
-                tap_code16(S(KC_F1)); // Press, Add folder
-            }
-            return false;
+            return simple_tap_hold(record, S(KC_F2), S(KC_F1));
         case LT(0,KC_D):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_D));                  // Tap, Duplicate Line
@@ -526,12 +461,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(-1,KC_F9):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_F9);               // Tap, Breakpoint
-            } else if (record->event.pressed) {
-                tap_code16(LCA(KC_P));           // Press, Debug
-            }
-            return false;
+            return simple_tap_hold(record, KC_F9, LCA(KC_P));
     }
 
     return true;
