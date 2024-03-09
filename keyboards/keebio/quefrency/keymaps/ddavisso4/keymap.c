@@ -62,13 +62,13 @@ KC_SPACE        ,KC_APPLICATION   ,KC_PRINT_SCREEN  ,C(KC_R)           ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,C(KC_1)        ,MEH(KC_H)    ,MEH(KC_A)     ,MEH(KC_D)     ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,LSA(KC_C)   ,LSA(KC_R)   ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,LSA(KC_C)   ,LSA(KC_R)   ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)         ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                    ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         C(KC_H)      ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LCA(KC_GRV)   ,KC_F2           ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
@@ -76,15 +76,15 @@ MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       
 
 	[FN2] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_MNXT         ,KC_MUTE        ,KC_VOLD    ,KC_VOLU   ,KC_MPLY   ,KC_MPRV   ,KC_MNXT           ,        KC_NO            ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MNXT         ,KC_MUTE         ,KC_VOLD        ,KC_VOLU   ,KC_MPLY    ,KC_MPRV   ,KC_MNXT           ,        KC_NO            ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_MPRV         ,RCS(KC_I)      ,C(KC_2)    ,C(KC_E)   ,KC_NO     ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MPRV         ,RCS(KC_I)       ,C(KC_2)        ,C(KC_E)   ,LT(2,KC_R) ,KC_NO                        ,        LSA(KC_C)        ,KC_1    ,KC_2    ,KC_3    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_1)       ,RCS(KC_5)      ,C(KC_Q)    ,KC_NO     ,C(KC_F)   ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)    ,KC_NO                        ,        LT(0, C(KC_E))   ,KC_4    ,KC_5    ,KC_6    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LAYER_LOCK_NAV  ,KC_NO          ,RCS(KC_R)  ,C(KC_R)   ,KC_NO     ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
+RCS(KC_2)       ,KC_NO           ,RCS(KC_3)      ,RCS(KC_4) ,KC_NO      ,KC_NO      ,KC_NO            ,        C(KC_N)          ,KC_7    ,KC_8    ,KC_9    ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_NO      ,KC_TRNS   ,KC_NO     ,RESET_LAYER_LOCK             ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_NO            ,KC_0    ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -460,15 +460,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING_DELAY(SS_LCTL("[") "s", 20); // Press, Sync Solution
             }
             return false;
-        case LT(-1,KC_F9):
+        case LT(-1, KC_F9):
             return simple_tap_hold(record, KC_F9, LCA(KC_P));
+        case LT(1, KC_1):
+            return simple_tap_hold(record, C(KC_1), RCS(KC_1));
+        case LT(1, KC_2):
+            return simple_tap_hold(record, MEH(KC_H), RCS(KC_2));
+        case LT(1, KC_3):
+            return simple_tap_hold(record, MEH(KC_A), RCS(KC_3));
+        case LT(1, KC_4):
+            return simple_tap_hold(record, MEH(KC_D), RCS(KC_4));
+        case LT(2, KC_R):
+            return simple_tap_hold(record, RCS(KC_R), C(KC_R));
+        case LT(1, KC_C):
+            return simple_tap_hold(record, C(KC_C), LCA(KC_GRV));
+        case LT(1, KC_V):
+            return simple_tap_hold(record, C(KC_V), KC_F2);
     }
 
     return true;
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if(get_highest_layer(state) > 0) {
+    if(get_highest_layer(state) > BASE) {
         backlight_enable();
     }
     else {
