@@ -61,15 +61,15 @@ KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,LSA(KC_C)   ,LSA(KC_R)   ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,RCS(KC_MINS)    ,C(KC_MINS)        ,         RCS(KC_X)    ,LSA(KC_C)   ,LSA(KC_R)   ,KC_NO      ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,C(KC_F10)      ,KC_F10       ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,         C(KC_Y)      ,C(KC_U)     ,C(KC_I)     ,KC_NO      ,LT(1,KC_P)  ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         LT(1,KC_H)   ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,         LT(1,KC_H)   ,KC_NO       ,C(KC_K)     ,C(KC_L)    ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT ,KC_NO   ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT  ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO     ,KC_NO   ,KC_NO   ,
+MC_TG_BKMK          ,KC_TRNS        ,KC_TRNS      ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,         KC_NO        ,KC_NO       ,KC_NO       ,KC_NO      ,KC_NO       ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -143,7 +143,6 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 //             KC_NO)
 
 static bool console_enabled = false;
-
 static bool layer_locked = false;
 
 const int double_tap_timeout_ms = 100;
@@ -479,6 +478,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, C(KC_H), A(KC_A));
         case LT(0, KC_PSCR):
             return simple_tap_hold(record, KC_PSCR, RCS(KC_B));
+        case LT(1, KC_P):
+            return simple_tap_hold(record, C(KC_P), RCS(KC_P));
     }
 
     return true;
@@ -493,4 +494,22 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
 
     return state;
+}
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(-2,KC_DEL):
+        case LT(-1,KC_DEL):
+        case LT(0,KC_UP):
+        case LT(0,KC_BSPC):
+        case LT(-1,KC_LEFT):
+        case LT(0,KC_DOWN):
+        case LT(-1,KC_RGHT):
+        case LT(0,C(KC_X)):
+        case LT(0,C(KC_C)):
+        case LT(0,C(KC_V)):
+            return TAPPING_TERM_LONG;
+        default:
+            return TAPPING_TERM;
+    }
 }
