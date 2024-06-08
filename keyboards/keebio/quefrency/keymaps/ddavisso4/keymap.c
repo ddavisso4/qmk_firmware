@@ -42,7 +42,7 @@ KC_TAB   ,KC_Q                   ,KC_W      ,KC_E    ,KC_R    ,KC_T             
             KC_NO, KC_NO, KC_NO,
 KC_CAPS  ,KC_A                   ,KC_S      ,KC_D    ,KC_F    ,KC_G                ,         KC_H     ,KC_J     ,KC_K     ,KC_L     ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
             KC_NO, KC_NO, KC_NO,
-KC_LSFT  ,MT(MOD_RSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M     ,KC_COMM  ,KC_DOT   ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
+KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M     ,KC_COMM  ,KC_DOT   ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
 KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_SPC   ,KC_RALT  ,KC_RGUI  ,KC_RCTL                ,RCS(KC_M)  ,G(KC_L)   ,
             KC_NO),
@@ -547,6 +547,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 };
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        // Immediately select the hold action when another key is pressed.
+        case MT(MOD_LSFT, KC_BSLS):
+        case MT(MOD_RSFT, KC_SLSH):
+            return true;
+        
+        // Do not select the hold action when another key is pressed.
+        default:
+            return false;
+    }
+}
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     if(get_highest_layer(state) > BASE) {
