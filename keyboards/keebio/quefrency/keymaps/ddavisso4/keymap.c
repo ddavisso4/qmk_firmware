@@ -71,7 +71,7 @@ KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        S(KC_ENTER)   ,S(KC_ENTER)       ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
+MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)   ,C(KC_SPACE)       ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
             KC_NO),
 
 
@@ -143,6 +143,12 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 //             KC_NO, KC_NO, KC_NO,
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO)
+
+const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
+const key_override_t **key_overrides = (const key_override_t *[]) {
+	&shift_space_override,
+	NULL // Null terminate the array of overrides!
+};
 
 static bool console_enabled = false;
 static bool layer_locked = false;
