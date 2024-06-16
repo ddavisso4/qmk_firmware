@@ -49,15 +49,15 @@ KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)          
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGUP         ,LT(1, MC_NAV_S_UP) ,S(KC_LBRC)          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_NO        ,KC_NO          ,KC_NO          ,
+LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGDN         ,LT(1, MC_NAV_S_UP) ,S(KC_LBRC)          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_PGDN            ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,LT(1,KC_7)   ,KC_NO          ,KC_NO          ,
+RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,KC_TAB             ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))  ,LT(0,C(KC_V))          ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_TRNS      ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))          ,LT(0, KC_END)             ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_TRNS      ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5          ,MO(NAV)                                            ,       LT(1,KC_ENTER)  ,LT(1,KC_ENTER)     ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS      ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       LT(1,KC_ENTER)  ,LT(1,KC_ENTER)     ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS      ,KC_TRNS        ,
         KC_NO),
 
 
@@ -65,9 +65,9 @@ KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5   
             KC_NO, KC_NO,
 LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        RCS(KC_X)     ,LT(1,MC_TMS_CMP)  ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LSA(KC_ENT)   ,C(KC_U)           ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,LT(2,KC_MINS) ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LSA(KC_ENT)   ,C(KC_U)           ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)    ,LT(1,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,LT(2,KC_1)   ,LT(2,KC_EQL)  ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)    ,KC_EQL            ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -494,41 +494,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, C(KC_P), RCS(KC_P));
         case LT(1,MC_TMS_CMP):
             return simple_tap_hold(record, LSA(KC_C), LSA(KC_R));
-        case LT(1, KC_EQL):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_EQL);
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY("==", 20);
-            }
-            return false;
-        case LT(2,KC_1):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_1));
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY("!!", 20);
-            }
-            return false;
-        case LT(2,KC_EQL):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_EQL));
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY("++", 20);
-            }
-            return false;
-        case LT(1,KC_7):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(S(KC_7));
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY("&&", 20);
-            }
-            return false;
-        case LT(2,KC_MINS):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_MINS);
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY("--", 20);
-            }
-            return false;
         case LT(1,KC_ENTER):
             return simple_tap_hold(record, KC_ENTER, C(KC_ENTER));
         case LT(1,KC_F10):
@@ -560,7 +525,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case MT(MOD_LSFT, KC_BSLS):
         case MT(MOD_RSFT, KC_SLSH):
             return true;
-        
+
         // Do not select the hold action when another key is pressed.
         default:
             return false;
