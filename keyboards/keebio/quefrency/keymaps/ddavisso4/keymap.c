@@ -67,7 +67,7 @@ LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    
             KC_NO, KC_NO, KC_NO,
 LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LSA(KC_ENT)   ,C(KC_U)           ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)    ,KC_EQL            ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)    ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -514,6 +514,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(1,KC_MINS):
             return simple_tap_hold(record, C(KC_MINS), LCA(KC_L));
+        case LT(0,KC_EQL):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_EQL);
+            } else if (record->event.pressed) {
+                SEND_STRING_DELAY("=>", 20);
+            }
+            return false;
     }
 
     return true;
