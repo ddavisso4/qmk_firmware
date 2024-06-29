@@ -19,5 +19,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #define SPLIT_HAND_PIN F7
-
-#define CAPS_LOCK_LED_PIN B6
+#define LED_CAPS_LOCK_PIN B6
+#define LED_PIN_ON_STATE 0
