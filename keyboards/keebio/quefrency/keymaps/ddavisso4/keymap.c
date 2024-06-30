@@ -150,6 +150,11 @@ const key_override_t **key_overrides = (const key_override_t *[]) {
 	NULL // Null terminate the array of overrides!
 };
 
+const uint16_t PROGMEM select_all[] = {C(KC_LEFT) ,LT(-1,KC_LEFT), COMBO_END};
+combo_t key_combos[] = {
+    COMBO(select_all, LCTL(KC_A))
+};
+
 static bool console_enabled = false;
 static bool layer_locked = false;
 
