@@ -24,7 +24,6 @@ enum custom_keycodes {
     MC_GO_BASE,
     MC_NAV_S_UP,
     MC_NAV_S_DWN,
-    MC_TMS_CMP,
     MC_00,
     LAYER_LOCK_NAV,
     LAYER_LOCK_FN1,
@@ -63,15 +62,15 @@ KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        RCS(KC_X)     ,LT(1,MC_TMS_CMP)  ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
+LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LSA(KC_ENT)   ,C(KC_U)           ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)    ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
+KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)       ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)   ,C(KC_SPACE)       ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
+MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)     ,C(KC_SPACE)       ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
             KC_NO),
 
 
@@ -83,7 +82,7 @@ KC_MPRV         ,RCS(KC_I)       ,C(KC_2)        ,C(KC_E)   ,LT(2,KC_R) ,KC_NO  
             KC_NO, KC_NO, KC_NO,
 RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)    ,KC_NO                        ,        KC_NO   ,KC_4    ,KC_5    ,KC_6     ,S(KC_EQL) ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_2)       ,KC_NO           ,RCS(KC_3)      ,RCS(KC_4) ,KC_NO      ,KC_NO      ,KC_NO            ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
+RCS(KC_2)       ,KC_NO           ,RCS(KC_3)      ,RCS(KC_4) ,KC_NO      ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_0    ,KC_0    ,MC_00   ,KC_DOT   ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO),
@@ -91,7 +90,7 @@ LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_L
 
 	[UTIL] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,KC_F1     ,KC_F2     ,KC_F3    ,KC_F4     ,KC_F5   ,KC_F6                    ,        KC_F7   ,KC_F8                         ,KC_F9                         ,KC_F10                     ,KC_F11   ,KC_F12    ,KC_NO   ,KC_NO           ,
+KC_NO   ,KC_F1     ,KC_F2     ,KC_F3    ,KC_F4     ,KC_F5   ,KC_F6                    ,        KC_F7   ,KC_F8                         ,KC_F9                         ,KC_F10                     ,KC_F11   ,KC_F12    ,QK_BOOT ,QK_BOOT         ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_INS    ,KC_PAUS   ,KC_SCRL  ,KC_NUM    ,KC_NO                             ,        KC_NO   ,QK_DYNAMIC_TAPPING_TERM_PRINT , QK_DYNAMIC_TAPPING_TERM_DOWN ,QK_DYNAMIC_TAPPING_TERM_UP ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO           ,
             KC_NO, KC_NO, KC_NO,
@@ -497,8 +496,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_PSCR, RCS(KC_B));
         case LT(1, KC_P):
             return simple_tap_hold(record, C(KC_P), RCS(KC_P));
-        case LT(1,MC_TMS_CMP):
-            return simple_tap_hold(record, LSA(KC_C), LSA(KC_R));
         case LT(1,KC_ENTER):
             return simple_tap_hold(record, KC_ENTER, C(KC_ENTER));
         case LT(1,KC_F10):
@@ -526,6 +523,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING_DELAY("=>", 20);
             }
             return false;
+        case LT(2,KC_ENTER):
+            return simple_tap_hold(record, RCS(KC_X), LSA(KC_ENT));
+        case LT(1,KC_U):
+            return simple_tap_hold(record, C(KC_U), LSA(KC_E));
     }
 
     return true;
