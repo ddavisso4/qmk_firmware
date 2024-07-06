@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include <data.h>
+#include <strings.h>
 
 enum layer_names {
     BASE,
@@ -8,7 +9,8 @@ enum layer_names {
     FN2,
     UTIL,
     ALT_TAB_SWITCH,
-    WIN_TAB_SWITCH
+    WIN_TAB_SWITCH,
+    ONE_SHOT
 };
 
 enum custom_keycodes {
@@ -29,21 +31,24 @@ enum custom_keycodes {
     LAYER_LOCK_FN1,
     LAYER_LOCK_FN2,
     RESET_LAYER_LOCK,
-    ENABLE_CONSOLE
+    ENABLE_CONSOLE,
+    USE_ERP,
+    USE_WMS,
+    USE_PPG
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_GRV   ,KC_1                   ,KC_2      ,KC_3    ,KC_4    ,KC_5    ,KC_6       ,         KC_7     ,KC_8     ,KC_9     ,KC_0     ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
+KC_GRV   ,KC_1                   ,KC_2      ,KC_3    ,KC_4    ,KC_5    ,KC_6       ,         KC_7     ,KC_8     ,KC_9          ,KC_0     ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
             KC_NO, KC_NO, KC_NO,
-KC_TAB   ,KC_Q                   ,KC_W      ,KC_E    ,KC_R    ,KC_T                ,         KC_Y     ,KC_U     ,KC_I     ,KC_O     ,KC_P                   ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
+KC_TAB   ,KC_Q                   ,KC_W      ,KC_E    ,KC_R    ,KC_T                ,         KC_Y     ,KC_U     ,KC_I          ,KC_O     ,KC_P                   ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
             KC_NO, KC_NO, KC_NO,
-KC_CAPS  ,KC_A                   ,KC_S      ,KC_D    ,KC_F    ,KC_G                ,         KC_H     ,KC_J     ,KC_K     ,KC_L     ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
+KC_CAPS  ,KC_A                   ,KC_S      ,KC_D    ,KC_F    ,KC_G                ,         KC_H     ,KC_J     ,KC_K          ,KC_L     ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
             KC_NO, KC_NO, KC_NO,
-KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M     ,KC_COMM  ,KC_DOT   ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
+KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M     ,KC_COMM       ,KC_DOT   ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
-KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_SPC   ,KC_RALT  ,KC_RGUI  ,KC_RCTL                ,RCS(KC_M)  ,G(KC_L)   ,
+KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_SPC   ,OSL(ONE_SHOT) ,KC_RGUI  ,KC_RCTL                ,RCS(KC_M)  ,G(KC_L)   ,
             KC_NO),
 
 	[NAV] = LAYOUT_all(
@@ -54,9 +59,9 @@ RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_
             KC_NO, KC_NO, KC_NO,
 KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))          ,LT(0, KC_END)             ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_TRNS      ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))          ,LT(0, KC_END)             ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       LT(1,KC_ENTER)  ,LT(1,KC_ENTER)     ,KC_TRNS             ,KC_TRNS        ,KC_TRNS        ,KC_TRNS      ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       LT(1,KC_ENTER)  ,LT(1,KC_ENTER)     ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
         KC_NO),
 
 
@@ -124,6 +129,19 @@ KC_NO   ,KC_NO   ,KC_1    ,KC_2    ,KC_3    ,KC_NO                  ,        KC_
 KC_NO   ,KC_NO   ,KC_4    ,KC_5    ,KC_6    ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO   ,KC_NO   ,KC_7    ,KC_8    ,KC_9    ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO),
+
+    [ONE_SHOT] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP ,USE_PPG ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO)
@@ -265,13 +283,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_ENTER)
-                    SS_DELAY(100)
+                    SS_DELAY(200)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_ENTER)
-                    SS_DELAY(50)
+                    SS_DELAY(100)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     LOCAL_ADMIN_ACCOUNT
@@ -284,13 +302,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_ENTER)
-                    SS_DELAY(100)
+                    SS_DELAY(200)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     SS_TAP(X_ENTER)
-                    SS_DELAY(50)
+                    SS_DELAY(100)
                     SS_TAP(X_TAB)
                     SS_DELAY(25)
                     ADMIN_ACCOUNT
@@ -527,6 +545,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, RCS(KC_X), LSA(KC_ENT));
         case LT(1,KC_U):
             return simple_tap_hold(record, C(KC_U), LSA(KC_E));
+        case USE_ERP:
+            if (record->event.pressed) {
+                SEND_STRING_USE_ERP;
+            }
+            return false;
+        case USE_WMS:
+            if (record->event.pressed) {
+                SEND_STRING_USE_WMS;
+            }
+            return false;
+        case USE_PPG:
+            if (record->event.pressed) {
+                SEND_STRING_USE_PPG;
+            }
+            return false;
     }
 
     return true;
