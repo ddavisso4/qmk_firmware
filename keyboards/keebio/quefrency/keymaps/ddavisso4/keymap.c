@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include <data.h>
 #include <strings.h>
 
 enum layer_names {
@@ -34,7 +33,8 @@ enum custom_keycodes {
     ENABLE_CONSOLE,
     USE_ERP,
     USE_WMS,
-    USE_PPG
+    USE_PPG,
+    PR_TEMPLATE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -135,15 +135,15 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_
 
     [ONE_SHOT] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP ,USE_PPG ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP ,USE_PPG     ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,PR_TEMPLATE ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO)
 };
 
@@ -558,6 +558,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case USE_PPG:
             if (record->event.pressed) {
                 SEND_STRING_USE_PPG;
+            }
+            return false;
+        case PR_TEMPLATE:
+            if (record->event.pressed) {
+                STR_PR_TEMPLATE;
             }
             return false;
     }
