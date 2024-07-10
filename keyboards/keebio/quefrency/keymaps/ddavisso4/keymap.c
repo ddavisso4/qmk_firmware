@@ -469,7 +469,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LT(-2,KC_DEL):
             return win_tab_tap_hold(record, C(KC_DEL), KC_0, false);
         case LT(-1,MC_DEF):
-            return simple_tap_hold(record, RCS(KC_GRV), C(KC_GRV));
+            return simple_tap_hold(record, C(KC_GRV), RCS(KC_GRV));
         case LT(0,KC_Z):
             return simple_tap_hold(record, C(KC_Z), C(KC_Y));
         case LT(0,C(KC_G)):
