@@ -69,7 +69,7 @@ KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5   
             KC_NO, KC_NO,
 LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F5)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -87,7 +87,7 @@ KC_MPRV         ,RCS(KC_I)       ,C(KC_2)        ,C(KC_E)   ,LT(2,KC_R) ,KC_NO  
             KC_NO, KC_NO, KC_NO,
 RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)    ,KC_NO                        ,        KC_NO   ,KC_4    ,KC_5    ,KC_6     ,S(KC_EQL) ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_2)       ,KC_NO           ,RCS(KC_3)      ,RCS(KC_4) ,KC_NO      ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
+RCS(KC_2)       ,RCS(KC_3)       ,RCS(KC_4)      ,G(KC_UP)  ,KC_NO      ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_0    ,KC_0    ,MC_00   ,KC_DOT   ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO),
@@ -423,8 +423,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING_DELAY(SS_LCTL("kp"), 20); // Hold
             }
             return false;
-        case LT(0, KC_F5):
-            return hold_override(record, KC_F8);
+        case LT(0, KC_F8):
+            return hold_override(record, C(KC_F10));
         case LT(0, MC_TEST):
             if (record->tap.count && record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("r") "t", 20); // Tap
@@ -517,7 +517,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LT(1,KC_ENTER):
             return simple_tap_hold(record, KC_ENTER, C(KC_ENTER));
         case LT(1,KC_F10):
-            return simple_tap_hold(record, KC_F10, C(KC_F10));
+            return simple_tap_hold(record, KC_F10, S(KC_F11));
         case LT(0,KC_GRV):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_GRV);
