@@ -398,9 +398,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         // Tap-Hold Overrides
         case LT(0, KC_HOME):
-            return hold_override(record, C(KC_HOME));
+            return simple_tap_hold(record, KC_HOME, C(KC_HOME));
         case LT(0, KC_END):
-            return hold_override(record, C(KC_END));
+            return simple_tap_hold(record, KC_END, C(KC_END));
         case LT(0, C(KC_F4)):
             return simple_tap_hold(record, C(KC_F4), A(KC_F4));
         case LT(0, A(KC_TAB)):
@@ -424,7 +424,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case LT(0, KC_F8):
-            return hold_override(record, C(KC_F10));
+            return simple_tap_hold(record, KC_F8, C(KC_F10));
         case LT(0, MC_TEST):
             if (record->tap.count && record->event.pressed) {
                 SEND_STRING_DELAY(SS_LCTL("r") "t", 20); // Tap
