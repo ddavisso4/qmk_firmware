@@ -48,7 +48,7 @@ KC_CAPS  ,KC_A                   ,KC_S      ,KC_D    ,KC_F    ,KC_G             
             KC_NO, KC_NO, KC_NO,
 KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M           ,KC_COMM       ,KC_DOT    ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
-KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,LT(1,KC_ENTER) ,OSL(ONE_SHOT) ,RCS(KC_M) ,KC_NO                  ,KC_NO      ,G(KC_L)   ,
+KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_ENTER       ,OSL(ONE_SHOT) ,RCS(KC_M) ,KC_NO                  ,KC_NO      ,G(KC_L)   ,
             KC_NO),
 
 	[NAV] = LAYOUT_all(
@@ -59,9 +59,9 @@ RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_
             KC_NO, KC_NO, KC_NO,
 KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))          ,LT(0, KC_END)             ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       KC_TRNS         ,KC_TRNS            ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       LT(1,KC_ENTER)  ,KC_TRNS            ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
         KC_NO),
 
 
@@ -89,7 +89,7 @@ RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)    ,KC_NO  
             KC_NO, KC_NO, KC_NO,
 RCS(KC_2)       ,RCS(KC_3)       ,RCS(KC_4)      ,G(KC_UP)  ,KC_NO      ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_0    ,KC_0    ,MC_00   ,KC_DOT   ,KC_ENT    ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_NO   ,KC_0    ,KC_DOT  ,KC_ENT   ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
@@ -162,11 +162,11 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO                  ,       
 //             KC_NO)
 
 // No longer used since have extra thumb key for enter now
-// const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
-// const key_override_t **key_overrides = (const key_override_t *[]) {
-// 	&shift_space_override,
-// 	NULL // Null terminate the array of overrides!
-// };
+const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
+const key_override_t **key_overrides = (const key_override_t *[]) {
+	&shift_space_override,
+	NULL // Null terminate the array of overrides!
+};
 
 const uint16_t PROGMEM select_all[] = {C(KC_LEFT) ,LT(-1,KC_LEFT), COMBO_END};
 combo_t key_combos[] = {
