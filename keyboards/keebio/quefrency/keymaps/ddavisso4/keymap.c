@@ -48,7 +48,7 @@ KC_CAPS  ,KC_A                   ,KC_S      ,KC_D    ,KC_F    ,KC_G             
             KC_NO, KC_NO, KC_NO,
 KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z      ,KC_X    ,KC_C    ,KC_V    ,KC_B       ,         KC_N     ,KC_M           ,KC_COMM       ,KC_DOT    ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
-KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_ENTER       ,OSL(ONE_SHOT) ,RCS(KC_M) ,KC_NO                  ,KC_NO      ,G(KC_L)   ,
+KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)             ,         KC_SPC   ,KC_ENTER       ,OSL(ONE_SHOT) ,RCS(KC_M) ,KC_NO                  ,G(KC_L)    ,G(KC_L)   ,
             KC_NO),
 
 	[NAV] = LAYOUT_all(
