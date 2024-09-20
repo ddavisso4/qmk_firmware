@@ -34,7 +34,10 @@ enum custom_keycodes {
     USE_ERP,
     USE_WMS,
     USE_PPG,
-    PR_TEMPLATE
+    PR_TEMPLATE,
+    CS_B,
+    ALT_PASTE,
+    ALT_COPY
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -161,7 +164,6 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO                  ,       
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO)
 
-// No longer used since have extra thumb key for enter now
 const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
 const key_override_t **key_overrides = (const key_override_t *[]) {
 	&shift_space_override,
@@ -169,8 +171,16 @@ const key_override_t **key_overrides = (const key_override_t *[]) {
 };
 
 const uint16_t PROGMEM select_all[] = {C(KC_LEFT) ,LT(-1,KC_LEFT), COMBO_END};
+const uint16_t PROGMEM cs_b[] = {LT(0,C(KC_V)), LT(0, KC_END), COMBO_END};
+const uint16_t PROGMEM alt_paste[] = {LT(0,C(KC_C)), LT(0,C(KC_V)), COMBO_END};
+const uint16_t PROGMEM alt_copy[] = {LT(0,C(KC_X)), LT(0,C(KC_C)), COMBO_END};
+const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
 combo_t key_combos[] = {
-    COMBO(select_all, LCTL(KC_A))
+    COMBO(select_all, LCTL(KC_A)),
+    COMBO(cs_b, CS_B),
+    COMBO(alt_paste, ALT_PASTE),
+    COMBO(alt_copy, ALT_COPY),
+    COMBO(cancel_build, LCTL(KC_BRK)),
 };
 
 static bool console_enabled = false;
@@ -566,6 +576,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case PR_TEMPLATE:
             if (record->event.pressed) {
                 STR_PR_TEMPLATE;
+            }
+            return false;
+        case CS_B:
+            if (record->event.pressed) {
+                tap_code16(RCS(KC_B));
+            }
+            return false;
+        case ALT_PASTE:
+            if (record->event.pressed) {
+                tap_code16(RCS(KC_V));
+            }
+            return false;
+        case ALT_COPY:
+            if (record->event.pressed) {
+                tap_code16(RCS(KC_C));
             }
             return false;
     }
