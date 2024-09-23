@@ -1,17 +1,12 @@
 #include QMK_KEYBOARD_H
 #include <strings.h>
 
-enum layer_names {
-    BASE,
-    NAV,
-    FN1,
-    FN2,
-    UTIL,
-    ALT_TAB_SWITCH,
-    WIN_TAB_SWITCH,
-    ONE_SHOT
-};
 
+/**
+ *
+ * KEYCODES
+ *
+ **/
 enum custom_keycodes {
     MC_ADMIN = SAFE_RANGE,
     MC_TG_BKMK,
@@ -37,7 +32,32 @@ enum custom_keycodes {
     PR_TEMPLATE,
     CS_B,
     ALT_PASTE,
-    ALT_COPY
+    ALT_COPY,
+    RIGHT_FOUR,
+    RIGHT_TEN,
+    LEFT_FOUR,
+    LEFT_TEN,
+    DOWN_FOUR,
+    DOWN_TEN,
+    UP_FOUR,
+    UP_TEN,
+};
+
+
+/**
+ *
+ * LAYERS
+ *
+ **/
+enum layer_names {
+    BASE,
+    NAV,
+    FN1,
+    FN2,
+    UTIL,
+    ALT_TAB_SWITCH,
+    WIN_TAB_SWITCH,
+    ONE_SHOT
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -74,7 +94,7 @@ LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    
             KC_NO, KC_NO, KC_NO,
 LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_F3               ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
+LT(1,KC_F3)         ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -164,25 +184,80 @@ KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO                  ,       
 // KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
 //             KC_NO)
 
+
+/**
+ *
+ * OVERRIDES
+ *
+ **/
 const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
 const key_override_t **key_overrides = (const key_override_t *[]) {
 	&shift_space_override,
 	NULL // Null terminate the array of overrides!
 };
 
-const uint16_t PROGMEM select_all[] = {C(KC_LEFT) ,LT(-1,KC_LEFT), COMBO_END};
-const uint16_t PROGMEM cs_b[] = {LT(0,C(KC_V)), LT(0, KC_END), COMBO_END};
-const uint16_t PROGMEM alt_paste[] = {LT(0,C(KC_C)), LT(0,C(KC_V)), COMBO_END};
-const uint16_t PROGMEM alt_copy[] = {LT(0,C(KC_X)), LT(0,C(KC_C)), COMBO_END};
+
+/**
+ *
+ * COMBOS
+ *
+ **/
+ #define COMBO_SHOULD_TRIGGER
+
+// NAV combos
+const uint16_t PROGMEM select_all[] = {KC_A, KC_S, COMBO_END};
+const uint16_t PROGMEM cs_b[] = {KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM alt_paste[] = {KC_C, KC_V, COMBO_END};
+const uint16_t PROGMEM alt_copy[] = {KC_X, KC_C, COMBO_END};
+const uint16_t PROGMEM right_four[] = {KC_F, KC_L, COMBO_END};
+const uint16_t PROGMEM left_four[] = {KC_S, KC_J, COMBO_END};
+const uint16_t PROGMEM down_four[] = {KC_D, KC_K, COMBO_END};
+const uint16_t PROGMEM up_four[] = {KC_E, KC_I, COMBO_END};
+
+// FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
+
 combo_t key_combos[] = {
     COMBO(select_all, LCTL(KC_A)),
     COMBO(cs_b, CS_B),
     COMBO(alt_paste, ALT_PASTE),
     COMBO(alt_copy, ALT_COPY),
     COMBO(cancel_build, LCTL(KC_BRK)),
+    COMBO(right_four, RIGHT_FOUR),
+    COMBO(left_four, LEFT_FOUR),
+    COMBO(down_four, DOWN_FOUR),
+    COMBO(up_four, UP_FOUR),
 };
 
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    if (layer_state_is(NAV)) {
+        return true;
+    }
+
+    if (layer_state_is(FN1)) {
+        return true;
+    }
+
+    return false;
+}
+
+uint8_t combo_ref_from_layer(uint8_t layer){
+    switch (get_highest_layer(layer_state)){
+        case FN1:
+            return FN1;
+        default:
+            return BASE;
+    }
+
+    return layer;
+}
+
+
+/**
+ *
+ * CUSTOM PROCESSING...
+ *
+ **/
 static bool console_enabled = false;
 static bool layer_locked = false;
 
@@ -505,6 +580,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(-1, KC_F9):
             return simple_tap_hold(record, KC_F9, LCA(KC_P));
+        case LT(1,KC_F3):
+            return simple_tap_hold(record, KC_F3, S(KC_F3));
         case LT(1, KC_1):
             return simple_tap_hold(record, C(KC_1), RCS(KC_1));
         case LT(1, KC_2):
@@ -593,6 +670,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(RCS(KC_C));
             }
             return false;
+        case RIGHT_FOUR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT));
+            }
+            return false;
+        case RIGHT_TEN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT));
+            }
+            return false;
+        case LEFT_FOUR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+            }
+            return false;
+        case LEFT_TEN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+            }
+            return false;
+        case DOWN_FOUR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN));
+            }
+            return false;
+        case DOWN_TEN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN));
+            }
+            return false;
+        case UP_FOUR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP));
+            }
+            return false;
+        case UP_TEN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP));
+            }
+            return false;
     }
 
     return true;
@@ -640,6 +757,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+
+/**
+ *
+ * MISC
+ *
+ **/
 #ifndef MAGIC_ENABLE
 uint16_t keycode_config(uint16_t keycode) {
     return keycode;
