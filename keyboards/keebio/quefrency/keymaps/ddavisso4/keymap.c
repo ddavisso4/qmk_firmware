@@ -220,8 +220,8 @@ const uint16_t PROGMEM left_long[] = {KC_S, KC_J, COMBO_END};
 const uint16_t PROGMEM left_medium[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM down_long[] = {KC_D, KC_K, COMBO_END};
 const uint16_t PROGMEM up_long[] = {KC_E, KC_I, COMBO_END};
-const uint16_t PROGMEM sh_right_medium[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM sh_left_medium[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM sh_right_medium[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM sh_left_medium[] = {KC_J, KC_K, COMBO_END};
 
 // FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
@@ -362,7 +362,7 @@ bool win_tab_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold, bool ena
 
 void repeat(uint16_t keycode, int times) {
     for(int i = 0; i < times; i++) {
-        tap_code(keycode);
+        tap_code16(keycode);
     }
 }
 
