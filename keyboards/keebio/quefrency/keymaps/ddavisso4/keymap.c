@@ -33,15 +33,20 @@ enum custom_keycodes {
     CS_B,
     ALT_PASTE,
     ALT_COPY,
-    RIGHT_FOUR,
-    RIGHT_TEN,
-    LEFT_FOUR,
-    LEFT_TEN,
-    DOWN_FOUR,
-    DOWN_TEN,
-    UP_FOUR,
-    UP_TEN,
+    RIGHT_MEDIUM,
+    RIGHT_LONG,
+    LEFT_MEDIUM,
+    LEFT_LONG,
+    DOWN_MEDIUM,
+    DOWN_LONG,
+    UP_MEDIUM,
+    UP_LONG,
+    SH_RIGHT_MED,
+    SH_LEFT_MED,
 };
+
+#define NAV_MEDIUM 5
+#define NAV_LONG 10
 
 
 /**
@@ -76,15 +81,15 @@ KC_LCTL  ,KC_LGUI                ,KC_LALT   ,MO(FN2) ,MO(FN1) ,MO(NAV)          
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,       KC_PGDN         ,LT(1, MC_NAV_S_UP) ,S(KC_LBRC)          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
+LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP) ,S(KC_LBRC)          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,       A(KC_UP)        ,LT(1,KC_TAB)       ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
+RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)       ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RGHT)                                        ,       RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RGHT)   ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
+KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RIGHT)                                       ,         RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RIGHT)  ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,       A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,         A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,       LT(1,KC_ENTER)  ,KC_TRNS            ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,         LT(1,KC_ENTER)  ,KC_TRNS            ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
         KC_NO),
 
 
@@ -209,24 +214,35 @@ const uint16_t PROGMEM select_all[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM cs_b[] = {KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM alt_paste[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM alt_copy[] = {KC_X, KC_C, COMBO_END};
-const uint16_t PROGMEM right_four[] = {KC_F, KC_L, COMBO_END};
-const uint16_t PROGMEM left_four[] = {KC_S, KC_J, COMBO_END};
-const uint16_t PROGMEM down_four[] = {KC_D, KC_K, COMBO_END};
-const uint16_t PROGMEM up_four[] = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM right_long[] = {KC_F, KC_L, COMBO_END};
+const uint16_t PROGMEM right_medium[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM left_long[] = {KC_S, KC_J, COMBO_END};
+const uint16_t PROGMEM left_medium[] = {KC_S, KC_D, COMBO_END};
+const uint16_t PROGMEM down_long[] = {KC_D, KC_K, COMBO_END};
+const uint16_t PROGMEM up_long[] = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM sh_right_medium[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM sh_left_medium[] = {KC_K, KC_L, COMBO_END};
 
 // FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
 
 combo_t key_combos[] = {
+    // NAV
     COMBO(select_all, LCTL(KC_A)),
     COMBO(cs_b, CS_B),
     COMBO(alt_paste, ALT_PASTE),
     COMBO(alt_copy, ALT_COPY),
+    COMBO(right_long, RIGHT_LONG),
+    COMBO(right_medium, RIGHT_MEDIUM),
+    COMBO(left_long, LEFT_LONG),
+    COMBO(left_medium, LEFT_MEDIUM),
+    COMBO(down_long, DOWN_LONG),
+    COMBO(up_long, UP_LONG),
+    COMBO(sh_right_medium, SH_RIGHT_MED),
+    COMBO(sh_left_medium, SH_LEFT_MED),
+
+    // FN1
     COMBO(cancel_build, LCTL(KC_BRK)),
-    COMBO(right_four, RIGHT_FOUR),
-    COMBO(left_four, LEFT_FOUR),
-    COMBO(down_four, DOWN_FOUR),
-    COMBO(up_four, UP_FOUR),
 };
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
@@ -342,6 +358,12 @@ bool repeat_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold) {
 
 bool win_tab_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold, bool enable_repeat) {
     return general_tap_hold(record, tap, hold, enable_repeat, true);
+}
+
+void repeat(uint16_t keycode, int times) {
+    for(int i = 0; i < times; i++) {
+        tap_code(keycode);
+    }
 }
 
 void matrix_scan_user(void) {
@@ -670,44 +692,55 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(RCS(KC_C));
             }
             return false;
-        case RIGHT_FOUR:
+
+        case RIGHT_MEDIUM:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT));
+                repeat(KC_RIGHT, NAV_MEDIUM);
             }
             return false;
-        case RIGHT_TEN:
+        case RIGHT_LONG:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT));
+                repeat(KC_RIGHT, NAV_LONG);
             }
             return false;
-        case LEFT_FOUR:
+        case LEFT_MEDIUM:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                repeat(KC_LEFT, NAV_MEDIUM);
             }
             return false;
-        case LEFT_TEN:
+        case LEFT_LONG:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                repeat(KC_LEFT, NAV_LONG);
             }
             return false;
-        case DOWN_FOUR:
+        case DOWN_MEDIUM:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN));
+                repeat(KC_DOWN, NAV_MEDIUM);
             }
             return false;
-        case DOWN_TEN:
+        case DOWN_LONG:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN) SS_TAP(X_DOWN));
+                repeat(KC_DOWN, NAV_LONG);
             }
             return false;
-        case UP_FOUR:
+        case UP_MEDIUM:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP));
+                repeat(KC_UP, NAV_MEDIUM);
             }
             return false;
-        case UP_TEN:
+        case UP_LONG:
             if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP) SS_TAP(X_UP));
+                repeat(KC_UP, NAV_LONG);
+            }
+            return false;
+        case SH_LEFT_MED:
+            if (record->event.pressed) {
+                repeat(S(KC_LEFT), NAV_MEDIUM);
+            }
+            return false;
+        case SH_RIGHT_MED:
+            if (record->event.pressed) {
+                repeat(S(KC_RIGHT), NAV_MEDIUM);
             }
             return false;
     }
