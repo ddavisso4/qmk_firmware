@@ -44,7 +44,9 @@ enum custom_keycodes {
     UP_MEDIUM,
     UP_LONG,
     SH_RIGHT_MED,
-    SH_LEFT_MED
+    SH_LEFT_MED,
+    X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE,
+    X_KEYBOARD_MOD_PACKET_DELAY_STATUS
 };
 
 #define NAV_MEDIUM 5
@@ -85,15 +87,15 @@ KC_LCTL  ,KC_LGUI                ,OSM(MOD_LALT) ,MO(FN2) ,MO(FN1) ,MO(NAV)      
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP) ,S(KC_LBRC)          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
+LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP)                  ,S(KC_LBRC)                          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)       ,S(KC_UP)            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
+RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)                        ,S(KC_UP)                            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RIGHT)                                       ,         RCS(KC_LEFT)    ,S(KC_LEFT)         ,S(KC_DOWN)          ,S(KC_RGHT)     ,RCS(KC_RIGHT)  ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
+KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RIGHT)                                       ,         RCS(KC_LEFT)    ,S(KC_LEFT)                          ,S(KC_DOWN)                          ,S(KC_RGHT)     ,RCS(KC_RIGHT)  ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,         A(KC_DOWN)      ,LT(-1,KC_HOME)     ,LT(0, MC_NAV_S_DWN) ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,         A(KC_DOWN)      ,LT(-1,KC_HOME)                      ,LT(0, MC_NAV_S_DWN)                 ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,         LT(1,KC_ENTER)  ,KC_NO              ,KC_NO               ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
+KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,         LT(1,KC_ENTER)  ,X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE  ,X_KEYBOARD_MOD_PACKET_DELAY_STATUS  ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
         KC_NO),
 
 
@@ -808,6 +810,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_9, C(KC_9));
         case LT(3,KC_0):
             return simple_tap_hold(record, KC_0, C(KC_0));
+        case X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE:
+            if (record->event.pressed) {
+                keymap_config.keyboard_mod_packet_delay_enabled = !keymap_config.keyboard_mod_packet_delay_enabled;
+            }
+            return false;
+        case X_KEYBOARD_MOD_PACKET_DELAY_STATUS:
+            if (record->event.pressed) {
+                if (keymap_config.keyboard_mod_packet_delay_enabled) {
+                    SEND_STRING("on");
+                }
+                else {
+                    SEND_STRING("off");
+                }
+                return false;
+            }
     }
 
     return true;
