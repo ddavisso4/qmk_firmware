@@ -342,6 +342,13 @@ void send_keyboard_report(void) {
     }
 #endif
     send_6kro_report();
+#if (KEYBOARD_MOD_PACKET_DELAY > 0)
+    // If the mods are changing...
+    if (keymap_config.keyboard_mod_packet_delay_enabled && keyboard_report->mods != old_mods) {
+        // Wait for a fixed amount of time to allow the host to process the report
+        wait_ms(KEYBOARD_MOD_PACKET_DELAY);
+    }
+#endif
 }
 
 /** \brief Get mods
