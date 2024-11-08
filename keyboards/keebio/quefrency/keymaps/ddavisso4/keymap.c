@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include <strings.h>
+#include <process_combo.h>
 
 
 /**
@@ -43,7 +44,7 @@ enum custom_keycodes {
     UP_MEDIUM,
     UP_LONG,
     SH_RIGHT_MED,
-    SH_LEFT_MED,
+    SH_LEFT_MED
 };
 
 #define NAV_MEDIUM 5
@@ -57,13 +58,15 @@ enum custom_keycodes {
  **/
 enum layer_names {
     BASE,
+    STARCRAFT_TYPE,
     NAV,
     FN1,
     FN2,
     UTIL,
     ALT_TAB_SWITCH,
     WIN_TAB_SWITCH,
-    ONE_SHOT
+    ONE_SHOT,
+    STARCRAFT_PLAY
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -128,7 +131,7 @@ KC_NO   ,KC_F1     ,KC_F2     ,KC_F3    ,KC_F4     ,KC_F5   ,KC_F6              
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_INS    ,KC_PAUS   ,KC_SCRL  ,KC_NUM    ,KC_NO                             ,        KC_NO   ,QK_DYNAMIC_TAPPING_TERM_PRINT , QK_DYNAMIC_TAPPING_TERM_DOWN ,QK_DYNAMIC_TAPPING_TERM_UP ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO           ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,KC_NO                             ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,ENABLE_CONSOLE  ,
+KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,TO(STARCRAFT_PLAY)                ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,ENABLE_CONSOLE  ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,RGB_TOG   ,RGB_VAD        ,RGB_VAI        ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -173,6 +176,32 @@ KC_NO   ,KC_NO   ,KC_NO   ,LCA(KC_DEL) ,PR_TEMPLATE ,KC_NO                  ,   
 KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO),
+
+    [STARCRAFT_PLAY] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_ESCAPE           ,LT(3,KC_1) ,LT(3,KC_2) ,LT(3,KC_3) ,LT(3,KC_4) ,LT(3,KC_5) ,LT(3,KC_6)        ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,TO(BASE) ,
+            KC_NO, KC_NO, KC_NO,
+LT(3,KC_F2)         ,LT(3,KC_7) ,LT(3,KC_8) ,LT(3,KC_9) ,LT(3,KC_0) ,KC_T                          ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO    ,
+            KC_NO, KC_NO, KC_NO,
+LT(3,KC_F3)         ,KC_A       ,KC_S       ,KC_D       ,KC_SPACE   ,KC_G                          ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO    ,
+            KC_NO, KC_NO, KC_NO,
+LT(3,KC_F4)         ,KC_NO      ,KC_Z       ,KC_X       ,KC_C       ,KC_V       ,KC_B              ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+TO(STARCRAFT_TYPE)  ,KC_NO      ,KC_NO      ,KC_LALT    ,KC_LCTL                ,KC_LSFT           ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO),
+
+    [STARCRAFT_TYPE] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_GRV   ,KC_1                   ,KC_2    ,KC_3     ,KC_4    ,KC_5      ,KC_6            ,         KC_7     ,KC_8   ,KC_9     ,KC_0    ,KC_MINS               ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
+            KC_NO, KC_NO, KC_NO,
+KC_TAB   ,KC_Q                   ,KC_W    ,KC_E     ,KC_R    ,KC_T                       ,         KC_Y     ,KC_U   ,KC_I     ,KC_O    ,KC_P                  ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
+            KC_NO, KC_NO, KC_NO,
+KC_CAPS  ,KC_A                   ,KC_S    ,KC_D     ,KC_F    ,KC_G                       ,         KC_H     ,KC_J   ,KC_K     ,KC_L    ,KC_SCLN               ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
+            KC_NO, KC_NO, KC_NO,
+KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z    ,KC_X     ,KC_C    ,KC_V      ,KC_B            ,         KC_N     ,KC_M   ,KC_COMM  ,KC_DOT  ,MT(MOD_RSFT, KC_SLSH) ,KC_RSFT    ,KC_NO     ,
+            KC_NO, KC_NO, KC_NO,
+KC_LCTL  ,KC_LGUI                ,KC_LALT ,TO(BASE) ,TO(STARCRAFT_PLAY) ,MO(NAV)         ,         KC_SPC   ,KC_NO  ,KC_NO    ,KC_NO   ,KC_NO                 ,KC_NO      ,KC_NO     ,
             KC_NO)
 };
 
@@ -751,6 +780,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 repeat(S(KC_RIGHT), NAV_MEDIUM);
             }
             return false;
+
+        // Starcraft
+        case LT(3,KC_F2):
+            return simple_tap_hold(record, KC_F2, S(KC_F2));
+        case LT(3,KC_F3):
+            return simple_tap_hold(record, KC_F3, S(KC_F3));
+        case LT(3,KC_F4):
+            return simple_tap_hold(record, KC_F4, S(KC_F4));
+        case LT(3,KC_1):
+            return simple_tap_hold(record, KC_1, C(KC_1));
+        case LT(3,KC_2):
+            return simple_tap_hold(record, KC_2, C(KC_2));
+        case LT(3,KC_3):
+            return simple_tap_hold(record, KC_3, C(KC_3));
+        case LT(3,KC_4):
+            return simple_tap_hold(record, KC_4, C(KC_4));
+        case LT(3,KC_5):
+            return simple_tap_hold(record, KC_5, C(KC_5));
+        case LT(3,KC_6):
+            return simple_tap_hold(record, KC_6, C(KC_6));
+        case LT(3,KC_7):
+            return simple_tap_hold(record, KC_7, C(KC_7));
+        case LT(3,KC_8):
+            return simple_tap_hold(record, KC_8, C(KC_8));
+        case LT(3,KC_9):
+            return simple_tap_hold(record, KC_9, C(KC_9));
+        case LT(3,KC_0):
+            return simple_tap_hold(record, KC_0, C(KC_0));
     }
 
     return true;
@@ -770,7 +827,9 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if(get_highest_layer(state) > BASE) {
+    uint8_t current_state = get_highest_layer(state);
+
+    if(current_state > BASE && current_state != STARCRAFT_PLAY) {
         backlight_enable();
     }
     else {
