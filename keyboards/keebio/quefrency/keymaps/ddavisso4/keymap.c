@@ -169,15 +169,15 @@ KC_NO   ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,       
 
     [ONE_SHOT] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,C(KC_1) ,C(KC_2) ,C(KC_3)     ,C(KC_4)     ,C(KC_5) ,C(KC_6)        ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP     ,USE_PPG     ,RCS(KC_ESC)            ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP     ,USE_PPG     ,RCS(KC_ESC)             ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,LCA(KC_DEL) ,PR_TEMPLATE ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,LCA(KC_DEL) ,PR_TEMPLATE ,KC_NO                   ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO          ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO                   ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
     [STARCRAFT_PLAY] = LAYOUT_all(
