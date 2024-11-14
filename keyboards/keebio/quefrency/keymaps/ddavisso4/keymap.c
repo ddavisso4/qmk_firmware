@@ -228,9 +228,8 @@ KC_LCTL  ,KC_LGUI                ,KC_LALT ,TO(BASE) ,TO(STARCRAFT_PLAY) ,MO(NAV)
  *
  **/
 const key_override_t shift_space_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPACE, S(KC_ENTER));
-const key_override_t **key_overrides = (const key_override_t *[]) {
-	&shift_space_override,
-	NULL // Null terminate the array of overrides!
+const key_override_t *key_overrides[] = {
+    &shift_space_override
 };
 
 
