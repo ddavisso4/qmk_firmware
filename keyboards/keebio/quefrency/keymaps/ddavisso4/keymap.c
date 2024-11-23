@@ -241,36 +241,40 @@ const key_override_t *key_overrides[] = {
  #define COMBO_SHOULD_TRIGGER
 
 // NAV combos
-const uint16_t PROGMEM select_all[] = {KC_A, KC_S, COMBO_END};
-const uint16_t PROGMEM cs_b[] = {KC_V, KC_B, COMBO_END};
-const uint16_t PROGMEM alt_paste[] = {KC_C, KC_V, COMBO_END};
-const uint16_t PROGMEM alt_copy[] = {KC_X, KC_C, COMBO_END};
-const uint16_t PROGMEM right_long[] = {KC_F, KC_L, COMBO_END};
-const uint16_t PROGMEM right_medium[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM left_long[] = {KC_S, KC_J, COMBO_END};
-const uint16_t PROGMEM left_medium[] = {KC_S, KC_D, COMBO_END};
-const uint16_t PROGMEM down_long[] = {KC_D, KC_K, COMBO_END};
-const uint16_t PROGMEM up_long[] = {KC_E, KC_I, COMBO_END};
-const uint16_t PROGMEM sh_right_medium[] = {KC_K, KC_L, COMBO_END};
-const uint16_t PROGMEM sh_left_medium[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_select_all[] = {KC_A, KC_S, COMBO_END};
+const uint16_t PROGMEM combo_cs_b[] = {KC_V, KC_B, COMBO_END};
+const uint16_t PROGMEM combo_alt_paste[] = {KC_C, KC_V, COMBO_END};
+const uint16_t PROGMEM combo_alt_copy[] = {KC_X, KC_C, COMBO_END};
+const uint16_t PROGMEM combo_right_long[] = {KC_F, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_right_medium[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM combo_left_long[] = {KC_S, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_left_medium[] = {KC_S, KC_D, COMBO_END};
+const uint16_t PROGMEM combo_down_long[] = {KC_D, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_up_long[] = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM combo_sh_right_medium[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_sh_left_medium[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_maximize[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM combo_alt_home[] = {KC_F, KC_G, COMBO_END};
 
 // FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
 
 combo_t key_combos[] = {
     // NAV
-    COMBO(select_all, LCTL(KC_A)),
-    COMBO(cs_b, CS_B),
-    COMBO(alt_paste, ALT_PASTE),
-    COMBO(alt_copy, ALT_COPY),
-    COMBO(right_long, RIGHT_LONG),
-    COMBO(right_medium, RIGHT_MEDIUM),
-    COMBO(left_long, LEFT_LONG),
-    COMBO(left_medium, LEFT_MEDIUM),
-    COMBO(down_long, DOWN_LONG),
-    COMBO(up_long, UP_LONG),
-    COMBO(sh_right_medium, SH_RIGHT_MED),
-    COMBO(sh_left_medium, SH_LEFT_MED),
+    COMBO(combo_select_all, LCTL(KC_A)),
+    COMBO(combo_cs_b, CS_B),
+    COMBO(combo_alt_paste, ALT_PASTE),
+    COMBO(combo_alt_copy, ALT_COPY),
+    COMBO(combo_right_long, RIGHT_LONG),
+    COMBO(combo_right_medium, RIGHT_MEDIUM),
+    COMBO(combo_left_long, LEFT_LONG),
+    COMBO(combo_left_medium, LEFT_MEDIUM),
+    COMBO(combo_down_long, DOWN_LONG),
+    COMBO(combo_up_long, UP_LONG),
+    COMBO(combo_sh_right_medium, SH_RIGHT_MED),
+    COMBO(combo_sh_left_medium, SH_LEFT_MED),
+    COMBO(combo_maximize, G(KC_UP)),
+    COMBO(combo_alt_home, LALT(KC_HOME)),
 
     // FN1
     COMBO(cancel_build, LCTL(KC_BRK)),
