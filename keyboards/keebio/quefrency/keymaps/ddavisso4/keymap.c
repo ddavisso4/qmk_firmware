@@ -115,15 +115,15 @@ MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       
 
 	[FN2] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_MNXT         ,KC_MUTE         ,KC_VOLD        ,KC_VOLU   ,KC_MPLY    ,KC_MPRV   ,KC_MNXT           ,        KC_TAB  ,KC_SLSH ,S(KC_8) ,KC_BSPC  ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MNXT         ,KC_MUTE         ,KC_VOLD        ,KC_VOLU   ,KC_MPLY       ,KC_MPRV   ,KC_MNXT           ,        KC_TAB  ,KC_SLSH ,S(KC_8) ,KC_BSPC  ,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_MPRV         ,RCS(KC_I)       ,C(KC_2)        ,C(KC_E)   ,LT(2,KC_R) ,KC_BRIU                      ,        KC_NO   ,KC_7    ,KC_8    ,KC_9     ,KC_MINS   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_MPRV         ,RCS(KC_I)       ,C(KC_2)        ,C(KC_E)   ,LT(2,KC_R)    ,KC_BRIU                      ,        KC_NO   ,KC_7    ,KC_8    ,KC_9     ,KC_MINS   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)    ,KC_BRID                      ,        KC_NO   ,KC_4    ,KC_5    ,KC_6     ,S(KC_EQL) ,KC_NO   ,KC_NO   ,KC_NO   ,
+RCS(KC_1)       ,RCS(KC_5)       ,A(KC_S)        ,C(KC_Q)   ,C(KC_F)       ,KC_BRID                      ,        KC_NO   ,KC_4    ,KC_5    ,KC_6     ,S(KC_EQL) ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_2)       ,RCS(KC_3)       ,RCS(KC_4)      ,G(KC_UP)  ,KC_NO      ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
+RCS(KC_2)       ,RCS(KC_3)       ,RCS(KC_4)      ,G(KC_UP)  ,LALT(KC_HOME) ,KC_NO      ,QK_BOOT          ,        KC_NO   ,KC_1    ,KC_2    ,KC_3     ,KC_ENT    ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO      ,RESET_LAYER_LOCK             ,        KC_NO   ,KC_0    ,KC_DOT  ,KC_ENT   ,KC_NO     ,KC_NO   ,KC_NO   ,
+LAYER_LOCK_NAV  ,LAYER_LOCK_FN1  ,LAYER_LOCK_FN2 ,KC_TRNS   ,KC_NO         ,RESET_LAYER_LOCK             ,        KC_NO   ,KC_0    ,KC_DOT  ,KC_ENT   ,KC_NO     ,KC_NO   ,KC_NO   ,
             KC_NO),
 
 
