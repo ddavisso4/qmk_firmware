@@ -255,6 +255,7 @@ const uint16_t PROGMEM combo_sh_right_medium[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM combo_sh_left_medium[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_maximize[] = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM combo_alt_home[] = {KC_F, KC_G, COMBO_END};
+const uint16_t PROGMEM combo_show_desktop[] = {KC_S, KC_D, COMBO_END};
 
 // FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
@@ -275,6 +276,7 @@ combo_t key_combos[] = {
     COMBO(combo_sh_left_medium, SH_LEFT_MED),
     COMBO(combo_maximize, G(KC_UP)),
     COMBO(combo_alt_home, LALT(KC_HOME)),
+    COMBO(combo_show_desktop, G(KC_D)),
 
     // FN1
     COMBO(cancel_build, LCTL(KC_BRK)),
