@@ -45,7 +45,6 @@ enum custom_keycodes {
     UP_LONG,
     SH_RIGHT_MED,
     SH_LEFT_MED,
-    X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE,
     X_KEYBOARD_MOD_PACKET_DELAY_STATUS
 };
 
@@ -672,7 +671,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LT(1,KC_F10):
             return simple_tap_hold(record, KC_F10, S(KC_F11));
         case LT(1,KC_SPACE):
-            return simple_tap_hold(record, RCS(KC_ENTER), X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE);
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(RCS(KC_ENTER));
+            } else if (record->event.pressed) {
+                keymap_config.keyboard_mod_packet_delay_enabled = !keymap_config.keyboard_mod_packet_delay_enabled;
+            }
+            return false;
         case LT(0,KC_GRV):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_GRV);
@@ -817,11 +821,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_9, C(KC_9));
         case LT(3,KC_0):
             return simple_tap_hold(record, KC_0, C(KC_0));
-        case X_KEYBOARD_MOD_PACKET_DELAY_TOGGLE:
-            if (record->event.pressed) {
-                keymap_config.keyboard_mod_packet_delay_enabled = !keymap_config.keyboard_mod_packet_delay_enabled;
-            }
-            return false;
         case X_KEYBOARD_MOD_PACKET_DELAY_STATUS:
             if (record->event.pressed) {
                 if (keymap_config.keyboard_mod_packet_delay_enabled) {
