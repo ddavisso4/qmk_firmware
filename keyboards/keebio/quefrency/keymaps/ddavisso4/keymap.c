@@ -503,7 +503,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             // This is to deal with the case where hold combos on nav layer persist due to MO(NAV) released before mods causing mods to stick
-            else if(get_mods() != 0 && !record->event.pressed) {
+            else if(!IS_LAYER_ON(ALT_TAB_SWITCH) && get_mods() != 0 && !record->event.pressed) {
                 clear_mods();
             }
             return true;
