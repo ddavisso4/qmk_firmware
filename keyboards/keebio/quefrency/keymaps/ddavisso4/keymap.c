@@ -71,7 +71,7 @@ enum layer_names {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-[BASE] = LAYOUT_all(
+    [BASE] = LAYOUT_all(
             KC_NO, KC_NO,
 KC_GRV   ,KC_1                   ,KC_2          ,KC_3    ,KC_4    ,KC_5    ,KC_6        ,         KC_7     ,KC_8           ,KC_9          ,KC_0      ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
             KC_NO, KC_NO, KC_NO,
@@ -237,7 +237,7 @@ const key_override_t *key_overrides[] = {
  * COMBOS
  *
  **/
- #define COMBO_SHOULD_TRIGGER
+#define COMBO_SHOULD_TRIGGER
 
 // NAV combos
 const uint16_t PROGMEM combo_select_all[] = {KC_A, KC_S, COMBO_END};
@@ -284,7 +284,7 @@ combo_t key_combos[] = {
     COMBO(combo_ctrl, KC_LCTL),
 
     // FN1
-    COMBO(cancel_build, LCTL(KC_BRK)),
+    COMBO(cancel_build, LCTL(KC_BRK))
 };
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
@@ -313,7 +313,7 @@ uint8_t combo_ref_from_layer(uint8_t layer){
 
 /**
  *
- * CUSTOM PROCESSING...
+ * CUSTOM FUNCTIONS
  *
  **/
 static bool console_enabled = false;
@@ -324,6 +324,10 @@ static bool double_tap_repeat_pending;
 static bool double_tap_repeat_active;
 static uint16_t double_tap_timer;
 static uint16_t double_tap_key;
+
+// Put special ones on Layer 0 - LT(0,<kc>)
+static bool mod_tap_special_is_pressed[2];
+static bool mod_tap_special_is_bad_state[2];
 
 void win_switch_app(uint16_t num) {
     if(layer_locked) {
@@ -338,13 +342,14 @@ void win_switch_app(uint16_t num) {
 void reset_to_base(void) {
     layer_locked = false;
     clear_keyboard();
-    layer_move(BASE);
-}
 
-void keyboard_pre_init_user(void) {
-    double_tap_repeat_pending = false;
-    double_tap_repeat_active = false;
-    double_tap_timer = double_tap_timeout_ms;
+    if(IS_LAYER_ON(STARCRAFT_TYPE)) {
+        layer_move(STARCRAFT_TYPE);
+    }
+    else {
+        layer_move(BASE);
+    }
+
 }
 
 bool general_tap_hold(keyrecord_t *record, uint16_t tap, uint16_t hold, bool enable_repeat, bool as_win_tab) {
@@ -408,6 +413,55 @@ void repeat(uint16_t keycode, int times) {
     }
 }
 
+bool should_cancel_due_to_bad_release_bug(uint16_t keycode, keyrecord_t *record) {
+    int index;
+    if(keycode == 0x402A) {
+        index = 0;
+    }
+    else if(keycode == 0x4052) {
+        index = 1;
+    }
+    else {
+        return false;
+    }
+
+    bool prior_was_pressed = mod_tap_special_is_pressed[index];
+    bool current_event_is_pressed = record->event.pressed;
+    bool is_bad_state = mod_tap_special_is_bad_state[index];
+    if(!prior_was_pressed && current_event_is_pressed) {
+        mod_tap_special_is_pressed[index] = true;
+        if(is_bad_state) {
+            return true;
+        }
+    }
+    else if(prior_was_pressed && !current_event_is_pressed) {
+        mod_tap_special_is_pressed[index] = false;
+        if(is_bad_state) {
+            mod_tap_special_is_bad_state[index] = false;
+            return true;
+        }
+    }
+    else if(!prior_was_pressed && !current_event_is_pressed) {
+        mod_tap_special_is_pressed[index] = false;
+        mod_tap_special_is_bad_state[index] = true;
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ *
+ * HOOKS
+ *
+ **/
+void keyboard_pre_init_user(void) {
+    double_tap_repeat_pending = false;
+    double_tap_repeat_active = false;
+    double_tap_timer = double_tap_timeout_ms;
+}
+
 void matrix_scan_user(void) {
   if (double_tap_repeat_pending) {
     if (timer_elapsed(double_tap_timer) > double_tap_timeout_ms) {
@@ -420,9 +474,9 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Use this to print details for every keystrike
-    // if(console_enabled) {
-    //     uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-    // }
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, press: %u, time: %5u, int: %u, cnt: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+#endif
 
     switch (keycode) {
         case LT(0,MC_ADMIN):
@@ -491,7 +545,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MO(NAV):
             // Special case where pressed on base layer and released on win tab layer
             if (IS_LAYER_ON(WIN_TAB_SWITCH) && !record->event.pressed) {
-                unregister_code(KC_LGUI);
                 reset_to_base();
                 return false;
             }
@@ -502,9 +555,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 return false;
             }
-            // This is to deal with the case where hold combos on nav layer persist due to MO(NAV) released before mods causing mods to stick
-            else if(!IS_LAYER_ON(ALT_TAB_SWITCH) && get_mods() != 0 && !record->event.pressed) {
-                clear_mods();
+            // Mod combo activated on layer is not deactivated if layer switch happens
+            else if(!IS_LAYER_ON(ALT_TAB_SWITCH) && get_mods() > 0) {
+                unregister_mods(get_mods());
             }
             return true;
         case END_WIN_TAB:
@@ -599,8 +652,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LT(-1,KC_DEL):
             return win_tab_tap_hold(record, KC_DEL, KC_1, true);
         case LT(0,KC_UP):
+            if (should_cancel_due_to_bad_release_bug(keycode, record)) {
+                return false;
+            }
+
             return win_tab_tap_hold(record, KC_UP, KC_2, true);
         case LT(0,KC_BSPC):
+            if (should_cancel_due_to_bad_release_bug(keycode, record)) {
+                return false;
+            }
             return win_tab_tap_hold(record, KC_BSPC, KC_3, true);
         case LT(-1,KC_LEFT):
             return win_tab_tap_hold(record, KC_LEFT, KC_4, true);
