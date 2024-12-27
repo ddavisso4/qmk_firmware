@@ -102,11 +102,11 @@ KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5   
             KC_NO, KC_NO,
 LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,S(KC_F9)       ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
+LT(-1,KC_F9)        ,LT(1,KC_F9)    ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 LT(1,KC_F3)         ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        LT(1,KC_N)      ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)     ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
             KC_NO),
@@ -136,7 +136,7 @@ KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,TO(STARCRAFT_PLAY)          
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,RGB_TOG   ,RGB_VAD        ,RGB_VAI        ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO     ,KC_NO     ,LAYER_LOCK_FN2 ,LAYER_LOCK_FN1 ,LAYER_LOCK_NAV         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_TRNS   ,KC_NO   ,
+KC_NO   ,KC_NO     ,KC_NO     ,LAYER_LOCK_FN2 ,LAYER_LOCK_FN1 ,LAYER_LOCK_NAV         ,        KC_NO   ,KC_HOME                       ,KC_NO                         ,KC_END                     ,KC_NO    ,KC_TRNS   ,KC_NO   ,
             KC_NO),
 
 
@@ -168,15 +168,15 @@ KC_NO   ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO                  ,       
 
     [ONE_SHOT] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_NO   ,C(KC_1) ,C(KC_2) ,C(KC_3)     ,C(KC_4)     ,C(KC_5) ,C(KC_6)        ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,C(KC_1) ,C(KC_2) ,C(KC_3)     ,C(KC_4)     ,C(KC_5) ,C(KC_6)            ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP     ,USE_PPG     ,RCS(KC_ESC)             ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,USE_WMS ,USE_ERP     ,USE_PPG     ,RCS(KC_ESC)                 ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,LCA(KC_DEL) ,PR_TEMPLATE ,KC_NO                   ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,LCA(KC_DEL) ,PR_TEMPLATE ,KC_NO                       ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO          ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,RCS(KC_F12) ,KC_NO          ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO                   ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+KC_NO   ,KC_NO   ,KC_NO   ,KC_NO       ,KC_NO       ,KC_NO                       ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
     [STARCRAFT_PLAY] = LAYOUT_all(
@@ -244,14 +244,6 @@ const uint16_t PROGMEM combo_select_all[] = {KC_A, KC_S, COMBO_END};
 const uint16_t PROGMEM combo_cs_b[] = {KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_alt_paste[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_alt_copy[] = {KC_X, KC_C, COMBO_END};
-const uint16_t PROGMEM combo_right_long[] = {KC_F, KC_L, COMBO_END};
-const uint16_t PROGMEM combo_right_medium[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM combo_left_long[] = {KC_S, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_left_medium[] = {KC_S, KC_D, COMBO_END};
-const uint16_t PROGMEM combo_down_long[] = {KC_D, KC_K, COMBO_END};
-const uint16_t PROGMEM combo_up_long[] = {KC_E, KC_I, COMBO_END};
-const uint16_t PROGMEM combo_sh_right_medium[] = {KC_K, KC_L, COMBO_END};
-const uint16_t PROGMEM combo_sh_left_medium[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_maximize[] = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM combo_alt_home[] = {KC_F, KC_G, COMBO_END};
 const uint16_t PROGMEM combo_show_desktop[] = {KC_Q, KC_W, COMBO_END};
@@ -268,14 +260,6 @@ combo_t key_combos[] = {
     COMBO(combo_cs_b, CS_B),
     COMBO(combo_alt_paste, ALT_PASTE),
     COMBO(combo_alt_copy, ALT_COPY),
-    COMBO(combo_right_long, RIGHT_LONG),
-    COMBO(combo_right_medium, RIGHT_MEDIUM),
-    COMBO(combo_left_long, LEFT_LONG),
-    COMBO(combo_left_medium, LEFT_MEDIUM),
-    COMBO(combo_down_long, DOWN_LONG),
-    COMBO(combo_up_long, UP_LONG),
-    COMBO(combo_sh_right_medium, SH_RIGHT_MED),
-    COMBO(combo_sh_left_medium, SH_LEFT_MED),
     COMBO(combo_maximize, G(KC_UP)),
     COMBO(combo_alt_home, LALT(KC_HOME)),
     COMBO(combo_show_desktop, G(KC_D)),
@@ -811,58 +795,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(RCS(KC_C));
             }
             return false;
-
-        // Long nav
-        case RIGHT_MEDIUM:
-            if (record->event.pressed) {
-                repeat(KC_RIGHT, NAV_MEDIUM);
-            }
-            return false;
-        case RIGHT_LONG:
-            if (record->event.pressed) {
-                repeat(KC_RIGHT, NAV_LONG);
-            }
-            return false;
-        case LEFT_MEDIUM:
-            if (record->event.pressed) {
-                repeat(KC_LEFT, NAV_MEDIUM);
-            }
-            return false;
-        case LEFT_LONG:
-            if (record->event.pressed) {
-                repeat(KC_LEFT, NAV_LONG);
-            }
-            return false;
-        case DOWN_MEDIUM:
-            if (record->event.pressed) {
-                repeat(KC_DOWN, NAV_MEDIUM);
-            }
-            return false;
-        case DOWN_LONG:
-            if (record->event.pressed) {
-                repeat(KC_DOWN, NAV_LONG);
-            }
-            return false;
-        case UP_MEDIUM:
-            if (record->event.pressed) {
-                repeat(KC_UP, NAV_MEDIUM);
-            }
-            return false;
-        case UP_LONG:
-            if (record->event.pressed) {
-                repeat(KC_UP, NAV_LONG);
-            }
-            return false;
-        case SH_LEFT_MED:
-            if (record->event.pressed) {
-                repeat(S(KC_LEFT), NAV_MEDIUM);
-            }
-            return false;
-        case SH_RIGHT_MED:
-            if (record->event.pressed) {
-                repeat(S(KC_RIGHT), NAV_MEDIUM);
-            }
-            return false;
+        case LT(1,KC_F9):
+            return simple_tap_hold(record, S(KC_F9), RCS(KC_F4));
+        case LT(1,KC_N):
+            return simple_tap_hold(record, C(KC_N), LCA(KC_N));
 
         // Starcraft
         case LT(3,KC_F2):
@@ -891,6 +827,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_9, C(KC_9));
         case LT(3,KC_0):
             return simple_tap_hold(record, KC_0, C(KC_0));
+
+        // Mod packet delay status
         case X_KEYBOARD_MOD_PACKET_DELAY_STATUS:
             if (record->event.pressed) {
                 if (keymap_config.keyboard_mod_packet_delay_enabled) {
