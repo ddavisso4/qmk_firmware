@@ -35,22 +35,8 @@ enum custom_keycodes {
     CS_B,
     ALT_PASTE,
     ALT_COPY,
-    RIGHT_MEDIUM,
-    RIGHT_LONG,
-    LEFT_MEDIUM,
-    LEFT_LONG,
-    DOWN_MEDIUM,
-    DOWN_LONG,
-    UP_MEDIUM,
-    UP_LONG,
-    SH_RIGHT_MED,
-    SH_LEFT_MED,
     X_KEYBOARD_MOD_PACKET_DELAY_STATUS
 };
-
-#define NAV_MEDIUM 5
-#define NAV_LONG 10
-
 
 /**
  *
@@ -106,7 +92,7 @@ LT(-1,KC_F9)        ,LT(1,KC_F9)    ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  
             KC_NO, KC_NO, KC_NO,
 LT(1,KC_F3)         ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        LT(1,KC_N)      ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
+LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)     ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
             KC_NO),
@@ -245,14 +231,17 @@ const uint16_t PROGMEM combo_cs_b[] = {KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM combo_alt_paste[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_alt_copy[] = {KC_X, KC_C, COMBO_END};
 const uint16_t PROGMEM combo_maximize[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM combo_minimize[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM combo_alt_home[] = {KC_F, KC_G, COMBO_END};
-const uint16_t PROGMEM combo_show_desktop[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM combo_show_desktop[] = {KC_S, KC_D, COMBO_END};
 const uint16_t PROGMEM combo_ctrl_shift[] = {KC_E, KC_R, COMBO_END};
 const uint16_t PROGMEM combo_shift[] = {KC_E, KC_T, COMBO_END};
 const uint16_t PROGMEM combo_ctrl[] = {KC_R, KC_T, COMBO_END};
 
 // FN1 combos
 const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
+const uint16_t PROGMEM tab_pin[] = {LT(1,KC_F9), LT(1,KC_F10), COMBO_END};
+const uint16_t PROGMEM tab_keep_open[] = {LT(1,KC_F10), LT(0,KC_F11), COMBO_END};
 
 combo_t key_combos[] = {
     // NAV
@@ -261,6 +250,7 @@ combo_t key_combos[] = {
     COMBO(combo_alt_paste, ALT_PASTE),
     COMBO(combo_alt_copy, ALT_COPY),
     COMBO(combo_maximize, G(KC_UP)),
+    COMBO(combo_minimize, G(KC_DOWN)),
     COMBO(combo_alt_home, LALT(KC_HOME)),
     COMBO(combo_show_desktop, G(KC_D)),
     COMBO(combo_ctrl_shift, LCTL(KC_LSFT)),
@@ -268,7 +258,9 @@ combo_t key_combos[] = {
     COMBO(combo_ctrl, KC_LCTL),
 
     // FN1
-    COMBO(cancel_build, LCTL(KC_BRK))
+    COMBO(cancel_build, LCTL(KC_BRK)),
+    COMBO(tab_pin, LCA(KC_N)),
+    COMBO(tab_keep_open, LSA(KC_N)),
 };
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
@@ -797,8 +789,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(1,KC_F9):
             return simple_tap_hold(record, S(KC_F9), RCS(KC_F4));
-        case LT(1,KC_N):
-            return simple_tap_hold(record, C(KC_N), LCA(KC_N));
 
         // Starcraft
         case LT(3,KC_F2):
