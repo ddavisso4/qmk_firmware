@@ -35,7 +35,9 @@ enum custom_keycodes {
     CS_B,
     ALT_PASTE,
     ALT_COPY,
-    X_KEYBOARD_MOD_PACKET_DELAY_STATUS
+    X_KEYBOARD_MOD_PACKET_DELAY_STATUS,
+    MC_START_CTAB,
+    MC_CLR_CTRL_TAB,
 };
 
 /**
@@ -51,6 +53,7 @@ enum layer_names {
     FN2,
     UTIL,
     ALT_TAB_SWITCH,
+    CTRL_TAB_SWITCH,
     WIN_TAB_SWITCH,
     ONE_SHOT,
     STARCRAFT_PLAY
@@ -72,7 +75,7 @@ KC_LCTL  ,KC_LGUI                ,OSM(MOD_LALT) ,MO(FN2) ,MO(FN1) ,MO(NAV)      
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,LT(-1,C(KC_TAB))  ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP)   ,S(KC_LBRC)                          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
+LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,MC_START_CTAB     ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP)   ,S(KC_LBRC)                          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)         ,S(KC_UP)                            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
@@ -137,6 +140,19 @@ KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO                  , 
 KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,KC_NO           ,KC_NO   ,KC_NO   ,MC_CLR_ALT_TAB         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO),
+
+    [CTRL_TAB_SWITCH] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,S(KC_TAB)  ,MC_CLR_CTRL_TAB ,KC_TAB  ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,MC_GO_BASE ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO      ,KC_NO           ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO      ,KC_NO           ,KC_NO   ,KC_NO                  ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO      ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO      ,KC_NO           ,KC_NO   ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO   ,KC_NO   ,KC_NO      ,KC_NO           ,KC_NO   ,MC_CLR_CTRL_TAB        ,        KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
             KC_NO),
 
     [WIN_TAB_SWITCH] = LAYOUT_all(
@@ -511,9 +527,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MC_CLR_ALT_TAB:
             if (record->event.pressed) {
                 reset_to_base();
-                return false;
             }
-            return true;
+            return false;
+        case MC_CLR_CTRL_TAB:
+            if (record->event.pressed) {
+                reset_to_base();
+            }
+            return false;
         case MC_CLR_WIN_TAB:
             unregister_code(KC_LGUI);
             reset_to_base();
@@ -532,7 +552,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             // Mod combo activated on layer is not deactivated if layer switch happens
-            else if(!IS_LAYER_ON(ALT_TAB_SWITCH) && get_mods() > 0) {
+            else if(!IS_LAYER_ON(ALT_TAB_SWITCH) && !IS_LAYER_ON(CTRL_TAB_SWITCH) && get_mods() > 0) {
                 unregister_mods(get_mods());
             }
             return true;
@@ -601,8 +621,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(G(KC_TAB));
             }
             return false;
-        case LT(-1, C(KC_TAB)):
-            return simple_tap_hold(record, C(KC_TAB), RCS(KC_TAB));
+        case MC_START_CTAB:
+            if (record->event.pressed) {
+                layer_move(CTRL_TAB_SWITCH);
+                register_code(KC_LEFT_CTRL);
+                tap_code_delay(KC_TAB, 50);
+            }
+            return false;
         case LT(0, C(KC_T)):
             return simple_tap_hold(record, C(KC_T), RCS(KC_T));
         case LT(0, MC_NAV_BKMK):
