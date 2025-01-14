@@ -757,13 +757,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LT(0,KC_MINS):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(RCS(KC_MINS));
+                tap_code16(C(KC_MINS));
             } else if (record->event.pressed) {
                 SEND_STRING_DELAY(SS_LALT("g")"c", 20);
             }
             return false;
         case LT(1,KC_MINS):
-            return simple_tap_hold(record, C(KC_MINS), LCA(KC_L));
+            return simple_tap_hold(record, RCS(KC_MINS), LCA(KC_L));
         case LT(0,KC_EQL):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_EQL);
