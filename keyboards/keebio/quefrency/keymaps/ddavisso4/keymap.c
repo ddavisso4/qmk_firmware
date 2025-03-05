@@ -10,14 +10,8 @@
  **/
 enum custom_keycodes {
     MC_ADMIN = SAFE_RANGE,
-    MC_TG_BKMK,
-    MC_NAV_BKMK,
-    MC_TEST,
     MC_CLR_ALT_TAB,
     MC_CLR_WIN_TAB,
-    MC_DEF,
-    MC_COMMENT,
-    MC_UNCMNT,
     MC_GO_BASE,
     MC_NAV_S_UP,
     MC_NAV_S_DWN,
@@ -25,6 +19,7 @@ enum custom_keycodes {
     LAYER_LOCK_NAV,
     LAYER_LOCK_FN1,
     LAYER_LOCK_FN2,
+    LAYER_LOCK_DEBUG,
     END_WIN_TAB,
     RESET_LAYER_LOCK,
     ENABLE_CONSOLE,
@@ -38,6 +33,8 @@ enum custom_keycodes {
     X_KEYBOARD_MOD_PACKET_DELAY_STATUS,
     MC_START_CTAB,
     MC_CLR_CTRL_TAB,
+    TOGGLE_DEBUG,
+    MOVE_FN_LAYER
 };
 
 /**
@@ -51,6 +48,7 @@ enum layer_names {
     NAV,
     FN1,
     FN2,
+    FN_DEBUG,
     UTIL,
     ALT_TAB_SWITCH,
     CTRL_TAB_SWITCH,
@@ -62,42 +60,55 @@ enum layer_names {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_all(
             KC_NO, KC_NO,
-KC_GRV   ,KC_1                   ,KC_2          ,KC_3    ,KC_4    ,KC_5    ,KC_6        ,         KC_7     ,KC_8           ,KC_9          ,KC_0      ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
+KC_GRV   ,KC_1                   ,KC_2    ,KC_3    ,KC_4          ,KC_5    ,KC_6        ,         KC_7     ,KC_8           ,KC_9          ,KC_0      ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
             KC_NO, KC_NO, KC_NO,
-KC_TAB   ,KC_Q                   ,KC_W          ,KC_E    ,KC_R    ,KC_T                 ,         KC_Y     ,KC_U           ,KC_I          ,KC_O      ,KC_P                   ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
+KC_TAB   ,KC_Q                   ,KC_W    ,KC_E    ,KC_R          ,KC_T                 ,         KC_Y     ,KC_U           ,KC_I          ,KC_O      ,KC_P                   ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
             KC_NO, KC_NO, KC_NO,
-KC_CAPS  ,KC_A                   ,KC_S          ,KC_D    ,KC_F    ,KC_G                 ,         KC_H     ,KC_J           ,KC_K          ,KC_L      ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
+KC_CAPS  ,KC_A                   ,KC_S    ,KC_D    ,KC_F          ,KC_G                 ,         KC_H     ,KC_J           ,KC_K          ,KC_L      ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
             KC_NO, KC_NO, KC_NO,
-KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z          ,KC_X    ,KC_C    ,KC_V    ,KC_B        ,         KC_N     ,KC_M           ,KC_COMM       ,KC_DOT    ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
+KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z    ,KC_X    ,KC_C          ,KC_V    ,KC_B        ,         KC_N     ,KC_M           ,KC_COMM       ,KC_DOT    ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
             KC_NO, KC_NO, KC_NO,
-KC_LCTL  ,KC_LGUI                ,OSM(MOD_LALT) ,MO(FN2) ,MO(FN1) ,MO(NAV)              ,         KC_SPC   ,OSL(ONE_SHOT)  ,OSM(MOD_RALT) ,RCS(KC_M) ,KC_NO                  ,G(KC_L)    ,G(KC_L)   ,
+KC_LCTL  ,KC_LGUI                ,KC_LALT ,MO(FN2) ,MOVE_FN_LAYER ,MO(NAV)              ,         KC_SPC   ,OSL(ONE_SHOT)  ,OSM(MOD_RALT) ,RCS(KC_M) ,KC_NO                  ,G(KC_L)    ,G(KC_L)   ,
             KC_NO),
 
 	[NAV] = LAYOUT_all(
             KC_NO, KC_NO,
-LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,MC_START_CTAB     ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1, MC_NAV_S_UP)   ,S(KC_LBRC)                          ,S(KC_RBRC)     ,S(KC_GRV)      ,KC_PGUP      ,KC_NO          ,KC_NO          ,
+LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,MC_START_CTAB     ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1,MC_NAV_S_UP)    ,S(KC_LBRC)                          ,S(KC_RBRC)     ,KC_PGUP        ,KC_NO        ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-RCS(KC_L)       ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)         ,S(KC_UP)                            ,C(KC_A)        ,C(KC_W)        ,S(KC_7)      ,KC_NO          ,KC_NO          ,
+KC_F3           ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)         ,S(KC_UP)                            ,LT(1,KC_EQL)   ,S(KC_EQL)      ,KC_MINS      ,S(KC_1)        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RIGHT)                                       ,         RCS(KC_LEFT)    ,S(KC_LEFT)           ,S(KC_DOWN)                          ,S(KC_RGHT)     ,RCS(KC_RIGHT)  ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
-KC_ENTER        ,KC_NO            ,LT(0, KC_HOME)   ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0, KC_END)              ,         A(KC_DOWN)      ,LT(-1,KC_HOME)       ,LT(0, MC_NAV_S_DWN)                 ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
+KC_ENTER        ,KC_NO            ,LT(0,KC_HOME)    ,LT(0,C(KC_X))     ,LT(0,C(KC_C))   ,LT(0,C(KC_V))         ,LT(0,KC_END)               ,         A(KC_DOWN)      ,LT(-1,KC_HOME)       ,LT(0,MC_NAV_S_DWN)                  ,LT(-1,KC_END)  ,S(KC_MINS)     ,KC_NO        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_SPACE        ,KC_APPLICATION   ,LT(0,KC_PSCR)    ,C(KC_R)           ,KC_F5           ,MO(NAV)                                           ,         LT(1,KC_ENTER)  ,LT(1,KC_SPACE)       ,X_KEYBOARD_MOD_PACKET_DELAY_STATUS  ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
+KC_NO           ,KC_SPACE         ,LT(0,KC_PSCR)    ,KC_APPLICATION    ,KC_F5           ,MO(NAV)                                           ,         LT(1,KC_ENTER)  ,LT(1,KC_SPACE)       ,X_KEYBOARD_MOD_PACKET_DELAY_STATUS  ,KC_NO          ,KC_NO          ,KC_NO        ,KC_TRNS        ,
         KC_NO),
 
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)           ,LT(1,KC_1)     ,LT(1,KC_2)   ,LT(1,KC_3)    ,LT(1,KC_4)    ,LT(0,KC_MINS)   ,LT(1,KC_MINS)     ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
+LSA(KC_D)      ,LT(1,KC_1)     ,LT(1,KC_2)    ,LT(1,KC_3)    ,LT(1,KC_4)     ,C(KC_MINS)      ,RCS(KC_MINS)      ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO       ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(-1,KC_F9)        ,LT(1,KC_F9)    ,LT(1,KC_F10) ,LT(0,KC_F11)  ,LT(0, KC_F8)  ,LT(0, MC_TEST)                     ,        LT(2,KC_ENTER)  ,LT(1,KC_U)        ,C(KC_I)     ,C(KC_RBRC) ,LT(1,KC_P)   ,KC_MINS       ,KC_NO   ,KC_NO   ,
+TOGGLE_DEBUG   ,C(KC_Q)        ,LT(1,C(KC_W)) ,C(KC_E)       ,LT(1,C(KC_R))  ,C(KC_T)                            ,        C(KC_Y)         ,C(KC_U)           ,C(KC_I)     ,C(KC_O)    ,LT(1,KC_P)   ,C(KC_LBRC)    ,C(KC_RBRC)  ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(1,KC_F3)         ,LT(0,S(KC_F2)) ,LT(0,KC_S)   ,LT(0,KC_D)    ,LT(0,KC_F)    ,LT(0,C(KC_G))                      ,        LT(1,KC_H)      ,LT(0,KC_EQL)      ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_EQL)     ,KC_NO   ,KC_NO   ,
+KC_NO          ,LT(1,KC_A)     ,LT(0,KC_S)    ,LT(0,KC_D)    ,LT(1,C(KC_F))  ,C(KC_G)                            ,        LT(1,KC_H)      ,C(KC_J)           ,C(KC_K)     ,C(KC_L)    ,S(KC_1)      ,S(KC_7)       ,KC_NO       ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
-LT(0, MC_NAV_BKMK)  ,KC_NO          ,LT(0,KC_Z)   ,LT(-1,MC_DEF) ,LT(1,KC_C)    ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,MC_COMMENT        ,C(KC_COMM)  ,C(KC_DOT)  ,MC_UNCMNT    ,KC_NO         ,KC_NO   ,
+KC_NO          ,KC_NO          ,C(KC_Z)       ,C(KC_X)       ,LT(1,KC_C)     ,LT(1,KC_V)      ,LT(0,KC_B)        ,        C(KC_N)         ,C(KC_M)           ,C(KC_COMM)  ,C(KC_DOT)  ,S(KC_GRV)    ,KC_NO         ,KC_NO       ,
             KC_NO, KC_NO, KC_NO,
-MC_TG_BKMK          ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)     ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
+KC_NO          ,KC_NO          ,KC_NO         ,KC_NO         ,KC_TRNS        ,RESET_LAYER_LOCK                   ,        C(KC_SPACE)     ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO       ,
+            KC_NO),
+
+	[FN_DEBUG] = LAYOUT_all(
+            KC_NO, KC_NO,
+KC_NO             ,KC_NO          ,KC_NO        ,KC_NO         ,KC_NO         ,KC_NO           ,KC_NO             ,        KC_NO           ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+TOGGLE_DEBUG      ,S(KC_F5)       ,S(KC_F9)     ,LCA(KC_E)     ,KC_F8         ,C(KC_T)                            ,        KC_NO           ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+LAYER_LOCK_DEBUG  ,LCA(KC_P)      ,S(KC_F11)    ,KC_F11        ,KC_F10        ,C(KC_F10)                          ,        KC_NO           ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO             ,KC_NO          ,LCA(KC_I)    ,LCA(KC_B)     ,KC_NO         ,KC_F9           ,C(KC_F9)          ,        KC_NO           ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
+            KC_NO, KC_NO, KC_NO,
+KC_NO             ,RCS(KC_ESC)    ,KC_NO        ,KC_NO         ,KC_TRNS       ,RESET_LAYER_LOCK                   ,        KC_NO           ,KC_NO             ,KC_NO       ,KC_NO      ,KC_NO        ,KC_NO         ,KC_NO   ,
             KC_NO),
 
 
@@ -254,11 +265,6 @@ const uint16_t PROGMEM combo_ctrl_shift[] = {KC_E, KC_R, COMBO_END};
 const uint16_t PROGMEM combo_shift[] = {KC_E, KC_T, COMBO_END};
 const uint16_t PROGMEM combo_ctrl[] = {KC_R, KC_T, COMBO_END};
 
-// FN1 combos
-const uint16_t PROGMEM cancel_build[] = {LT(1,KC_C), LT(0,KC_B), COMBO_END};
-const uint16_t PROGMEM tab_pin[] = {LT(1,KC_F9), LT(1,KC_F10), COMBO_END};
-const uint16_t PROGMEM tab_keep_open[] = {LT(1,KC_F10), LT(0,KC_F11), COMBO_END};
-
 combo_t key_combos[] = {
     // NAV
     COMBO(combo_select_all, LCTL(KC_A)),
@@ -272,29 +278,17 @@ combo_t key_combos[] = {
     COMBO(combo_ctrl_shift, LCTL(KC_LSFT)),
     COMBO(combo_shift, KC_LSFT),
     COMBO(combo_ctrl, KC_LCTL),
-
-    // FN1
-    COMBO(cancel_build, LCTL(KC_BRK)),
-    COMBO(tab_pin, LCA(KC_N)),
-    COMBO(tab_keep_open, LSA(KC_N)),
 };
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     if (layer_state_is(NAV)) {
         return true;
     }
-
-    if (layer_state_is(FN1)) {
-        return true;
-    }
-
     return false;
 }
 
 uint8_t combo_ref_from_layer(uint8_t layer){
     switch (get_highest_layer(layer_state)){
-        case FN1:
-            return FN1;
         default:
             return BASE;
     }
@@ -310,6 +304,8 @@ uint8_t combo_ref_from_layer(uint8_t layer){
  **/
 static bool console_enabled = false;
 static bool layer_locked = false;
+static bool debug_mode_active = false;
+static bool fn_switch_pending = false;
 
 const int double_tap_timeout_ms = 100;
 static bool double_tap_repeat_pending;
@@ -465,7 +461,6 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Use this to print details for every keystrike
 #ifdef CONSOLE_ENABLE
     uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, press: %u, time: %5u, int: %u, cnt: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 #endif
@@ -518,12 +513,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;
-        case MC_TG_BKMK:
-            if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kk"), 20);
-                return false;
-            }
-            return true;
         case MC_CLR_ALT_TAB:
             if (record->event.pressed) {
                 reset_to_base();
@@ -562,6 +551,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_move(NAV);
             }
             return false;
+        case TOGGLE_DEBUG:
+            if (record->event.pressed) {
+                debug_mode_active = !debug_mode_active;
+                fn_switch_pending = true;
+            }
+            return false;
+        case MOVE_FN_LAYER:
+            if (layer_locked) {
+                return false;
+            }
+
+            if (debug_mode_active) {
+                if(record->event.pressed) {
+                    layer_on(FN_DEBUG);
+                }
+                else {
+                    if (fn_switch_pending) {
+                        layer_off(FN1);
+                        fn_switch_pending = false;
+                    }
+                    else {
+                        layer_off(FN_DEBUG);
+                    }
+                }
+            }
+            else {
+                if(record->event.pressed) {
+                    layer_on(FN1);
+                }
+                else {
+                    if (fn_switch_pending) {
+                        layer_off(FN_DEBUG);
+                        fn_switch_pending = false;
+                    }
+                    else {
+                        layer_off(FN1);
+                    }
+                }
+            }
+            return false;
         case MO(FN2):
             if (layer_locked) {
                 return false;
@@ -572,18 +601,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 reset_to_base();
             }
             return false;
-        case MC_COMMENT:
-            if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kc"), 20);
-                return false;
-            }
-            return true;
-        case MC_UNCMNT:
-            if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("ku"), 20);
-                return false;
-            }
-            return true;
         case MC_GO_BASE:
             if (record->event.pressed) {
                 reset_to_base();
@@ -596,23 +613,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LAYER_LOCK_FN1:
             layer_locked = true;
-            layer_move(FN1);
+            if(debug_mode_active) {
+                layer_move(FN_DEBUG);
+            }
+            else {
+                layer_move(FN1);
+            }
             return false;
         case LAYER_LOCK_FN2:
             layer_locked = true;
             layer_move(FN2);
             return false;
+        case LAYER_LOCK_DEBUG:
+            layer_locked = true;
+            layer_move(FN_DEBUG);
+            return false;
         case ENABLE_CONSOLE:
             console_enabled = !console_enabled;
-
-        // Tap-Hold Overrides
-        case LT(0, KC_HOME):
+            return false;
+        case LT(0,KC_HOME):
             return simple_tap_hold(record, KC_HOME, C(KC_HOME));
-        case LT(0, KC_END):
+        case LT(0,KC_END):
             return simple_tap_hold(record, KC_END, C(KC_END));
-        case LT(0, C(KC_F4)):
+        case LT(0,C(KC_F4)):
             return simple_tap_hold(record, C(KC_F4), A(KC_F4));
-        case LT(0, A(KC_TAB)):
+        case LT(0,A(KC_TAB)):
             if (record->tap.count && record->event.pressed) {
                 layer_move(ALT_TAB_SWITCH);
                 register_code(KC_LALT);
@@ -628,24 +653,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code_delay(KC_TAB, 50);
             }
             return false;
-        case LT(0, C(KC_T)):
+        case LT(0,C(KC_T)):
             return simple_tap_hold(record, C(KC_T), RCS(KC_T));
-        case LT(0, MC_NAV_BKMK):
-            if (record->tap.count && record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kn"), 20); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kp"), 20); // Hold
-            }
-            return false;
-        case LT(0, KC_F8):
-            return simple_tap_hold(record, KC_F8, C(KC_F10));
-        case LT(0, MC_TEST):
-            if (record->tap.count && record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("r") "t", 20); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("rt"), 20); // Hold
-            }
-            return false;
         case LT(0,G(C(KC_LEFT))):
             return simple_tap_hold(record, G(C(KC_LEFT)), A(KC_LEFT));
         case LT(0,G(C(KC_RIGHT))):
@@ -675,6 +684,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return win_tab_tap_hold(record, C(KC_C), KC_8, false);
         case LT(0,C(KC_V)):
             return win_tab_tap_hold(record, C(KC_V), KC_9, false);
+        case LT(1,KC_A):
+            return simple_tap_hold(record, C(KC_A), S(KC_F2));
         case LT(0,KC_S):
             return simple_tap_hold(record, C(KC_S), RCS(KC_S));
         case LT(0,KC_F):
@@ -689,23 +700,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_F11, C(KC_E));
         case LT(-2,KC_DEL):
             return win_tab_tap_hold(record, C(KC_DEL), KC_0, false);
-        case LT(-1,MC_DEF):
-            return simple_tap_hold(record, C(KC_GRV), RCS(KC_GRV));
-        case LT(0,KC_Z):
-            return simple_tap_hold(record, C(KC_Z), C(KC_Y));
-        case LT(0,C(KC_G)):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_G)); // Tap
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LCTL("kd"), 20);
-            }
-            return false;
-        case LT(1, MC_NAV_S_UP):
+        case LT(1,MC_NAV_S_UP):
             return simple_tap_hold(record, LSA(KC_UP), RCS(KC_UP));
-        case LT(0, MC_NAV_S_DWN):
+        case LT(0,MC_NAV_S_DWN):
             return simple_tap_hold(record, LSA(KC_DOWN), RCS(KC_DOWN));
-        case LT(0,S(KC_F2)):
-            return simple_tap_hold(record, S(KC_F2), S(KC_F1));
         case LT(0,KC_D):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(C(KC_D));                  // Tap, Duplicate Line
@@ -713,29 +711,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING_DELAY(SS_LCTL("[") "s", 20); // Press, Sync Solution
             }
             return false;
-        case LT(-1, KC_F9):
+        case LT(-1,KC_F9):
             return simple_tap_hold(record, KC_F9, LCA(KC_P));
         case LT(1,KC_F3):
             return simple_tap_hold(record, KC_F3, S(KC_F3));
-        case LT(1, KC_1):
+        case LT(1,KC_1):
             return simple_tap_hold(record, C(KC_1), RCS(KC_1));
-        case LT(1, KC_2):
-            return simple_tap_hold(record, MEH(KC_H), RCS(KC_2));
-        case LT(1, KC_3):
-            return simple_tap_hold(record, MEH(KC_A), RCS(KC_3));
-        case LT(1, KC_4):
-            return simple_tap_hold(record, MEH(KC_D), RCS(KC_4));
-        case LT(2, KC_R):
+        case LT(1,KC_2):
+            return simple_tap_hold(record, C(KC_2), RCS(KC_2));
+        case LT(1,KC_3):
+            return simple_tap_hold(record, C(KC_3), RCS(KC_3));
+        case LT(1,KC_4):
+            return simple_tap_hold(record, C(KC_4), RCS(KC_4));
+        case LT(1,C(KC_R)):
+            return simple_tap_hold(record, C(KC_R), KC_F2);
+        case LT(1,C(KC_W)):
+            return simple_tap_hold(record, C(KC_W), KC_F11);
+        case LT(1,C(KC_F)):
+            return simple_tap_hold(record, C(KC_F), RCS(KC_F));
+        case LT(2,KC_R):
             return simple_tap_hold(record, RCS(KC_R), C(KC_R));
-        case LT(1, KC_C):
-            return simple_tap_hold(record, C(KC_C), LCA(KC_GRV));
-        case LT(1, KC_V):
-            return simple_tap_hold(record, C(KC_V), KC_F2);
-        case LT(1, KC_H):
-            return simple_tap_hold(record, C(KC_H), A(KC_A));
-        case LT(0, KC_PSCR):
+        case LT(1,KC_C):
+            return simple_tap_hold(record, C(KC_C), RCS(KC_C));
+        case LT(1,KC_V):
+            return simple_tap_hold(record, C(KC_V), RCS(KC_V));
+        case LT(1,KC_H):
+            return simple_tap_hold(record, C(KC_H), RCS(KC_H));
+        case LT(0,KC_PSCR):
             return simple_tap_hold(record, KC_PSCR, RCS(KC_B));
-        case LT(1, KC_P):
+        case LT(1,KC_P):
             return simple_tap_hold(record, C(KC_P), RCS(KC_P));
         case LT(1,KC_ENTER):
             return simple_tap_hold(record, KC_ENTER, C(KC_ENTER));
@@ -755,26 +759,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING_DELAY("```", 20);
             }
             return false;
-        case LT(0,KC_MINS):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(C(KC_MINS));
-            } else if (record->event.pressed) {
-                SEND_STRING_DELAY(SS_LALT("g")"c", 20);
-            }
-            return false;
-        case LT(1,KC_MINS):
-            return simple_tap_hold(record, RCS(KC_MINS), LCA(KC_L));
-        case LT(0,KC_EQL):
+        case LT(1,KC_EQL):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_EQL);
             } else if (record->event.pressed) {
                 SEND_STRING_DELAY("=>", 20);
             }
             return false;
-        case LT(2,KC_ENTER):
-            return simple_tap_hold(record, RCS(KC_X), LSA(KC_ENT));
-        case LT(1,KC_U):
-            return simple_tap_hold(record, C(KC_U), LSA(KC_E));
         case USE_ERP:
             if (record->event.pressed) {
                 SEND_STRING_USE_ERP;
