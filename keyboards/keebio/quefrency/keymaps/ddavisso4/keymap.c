@@ -665,7 +665,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (should_cancel_due_to_bad_release_bug(keycode, record)) {
                 return false;
             }
-
             return win_tab_tap_hold(record, KC_UP, KC_2, true);
         case LT(0,KC_BSPC):
             if (should_cancel_due_to_bad_release_bug(keycode, record)) {
@@ -833,6 +832,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_9, C(KC_9));
         case LT(3,KC_0):
             return simple_tap_hold(record, KC_0, C(KC_0));
+        case KC_ESCAPE:
+            if (host_keyboard_led_state().caps_lock) {
+               tap_code16(KC_CAPS_LOCK);
+            }
+            return true;
 
         // Mod packet delay status
         case X_KEYBOARD_MOD_PACKET_DELAY_STATUS:
