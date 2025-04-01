@@ -75,7 +75,7 @@ KC_LCTL  ,KC_LGUI                ,KC_LALT ,MO(FN2) ,MOVE_FN_LAYER ,MO(NAV)      
             KC_NO, KC_NO,
 LT(0,MC_ADMIN)  ,LT(0,C(KC_F4))   ,LT(0,A(KC_TAB))  ,MC_START_CTAB     ,LT(0,C(KC_T))   ,LT(0,G(C(KC_LEFT)))   ,LT(0,G(C(KC_RIGHT)))       ,         KC_PGDN         ,LT(1,MC_NAV_S_UP)    ,S(KC_LBRC)                          ,S(KC_RBRC)     ,KC_PGUP        ,KC_NO        ,KC_NO          ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
-KC_F3           ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)         ,S(KC_UP)                            ,LT(1,KC_EQL)   ,S(KC_EQL)      ,KC_MINS      ,S(KC_1)        ,KC_NO          ,
+KC_F3           ,LT(-2,KC_DEL)    ,LT(-1,KC_DEL)    ,LT(0,KC_UP)       ,LT(0,KC_BSPC)   ,C(KC_BSPC)                                        ,         A(KC_UP)        ,LT(1,KC_TAB)         ,S(KC_UP)                            ,LT(1,KC_EQL)   ,KC_MINS        ,S(KC_EQL)    ,S(KC_1)        ,KC_NO          ,
             KC_NO, KC_NO, KC_NO,
 KC_ESC          ,C(KC_LEFT)       ,LT(-1,KC_LEFT)   ,LT(0,KC_DOWN)     ,LT(-1,KC_RGHT)  ,C(KC_RIGHT)                                       ,         RCS(KC_LEFT)    ,S(KC_LEFT)           ,S(KC_DOWN)                          ,S(KC_RGHT)     ,RCS(KC_RIGHT)  ,LT(0,KC_GRV) ,C(KC_ENTER)    ,C(KC_ENTER)    ,
             KC_NO, KC_NO, KC_NO,
@@ -87,7 +87,7 @@ KC_NO           ,KC_SPACE         ,LT(0,KC_PSCR)    ,KC_APPLICATION    ,KC_F5   
 
 	[FN1] = LAYOUT_all(
             KC_NO, KC_NO,
-LSA(KC_D)      ,LT(1,KC_1)     ,LT(1,KC_2)    ,LT(1,KC_3)    ,LT(1,KC_4)     ,C(KC_MINS)      ,RCS(KC_MINS)      ,        LSA(KC_R)       ,LCA(KC_R)         ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO       ,KC_NO   ,
+LSA(KC_D)      ,LT(1,KC_1)     ,LT(1,KC_2)    ,LT(1,KC_3)    ,LT(1,KC_4)     ,C(KC_MINS)      ,RCS(KC_MINS)      ,        RCS(KC_X)       ,LT(1, KC_8)      ,KC_LBRC     ,KC_RBRC    ,KC_NO        ,KC_NO         ,KC_NO       ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 TOGGLE_DEBUG   ,C(KC_Q)        ,LT(1,C(KC_W)) ,C(KC_E)       ,LT(1,C(KC_R))  ,C(KC_T)                            ,        C(KC_Y)         ,C(KC_U)           ,C(KC_I)     ,C(KC_O)    ,LT(1,KC_P)   ,C(KC_LBRC)    ,C(KC_RBRC)  ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
@@ -744,6 +744,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return simple_tap_hold(record, KC_ENTER, C(KC_ENTER));
         case LT(1,KC_F10):
             return simple_tap_hold(record, KC_F10, S(KC_F11));
+        case LT(1,KC_8):
+            return simple_tap_hold(record, LCA(KC_R), LSA(KC_R));
         case LT(1,KC_SPACE):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(RCS(KC_ENTER));
