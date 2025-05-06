@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "action_tapping.h"
 #include "timer.h"
 #include "keycode_config.h"
-#include "usb_device_state.h"
 #include <string.h>
 
 #include "wait.h"
@@ -358,6 +357,7 @@ void send_keyboard_report(void) {
         wait_ms(KEYBOARD_MOD_PACKET_DELAY);
     }
 #endif
+    send_6kro_report();
 }
 
 /**
