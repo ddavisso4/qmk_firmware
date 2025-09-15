@@ -2,6 +2,12 @@
 #include <strings.h>
 #include <process_combo.h>
 
+/**
+ *
+ * NOTES ABOUT QUEFRENCY
+ *  1. Matrix is keyboard.json is top to bottom, left to right
+ *
+ **/
 
 /**
  *
@@ -134,7 +140,7 @@ KC_NO   ,KC_INS    ,KC_PAUS   ,KC_SCRL  ,KC_NUM    ,KC_NO                       
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,BL_TOGG   ,BL_DOWN   ,BL_UP    ,KC_NO     ,TO(STARCRAFT_PLAY)                ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,ENABLE_CONSOLE  ,
             KC_NO, KC_NO, KC_NO,
-KC_NO   ,KC_NO     ,RGB_TOG   ,RGB_VAD        ,RGB_VAI        ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
+KC_NO   ,KC_NO     ,KC_NO     ,KC_NO    ,KC_NO     ,KC_NO   ,KC_NO         ,        KC_NO   ,KC_NO                         ,KC_NO                         ,KC_NO                      ,KC_NO    ,KC_NO     ,KC_NO   ,
             KC_NO, KC_NO, KC_NO,
 KC_NO   ,KC_NO     ,KC_NO     ,LAYER_LOCK_FN2 ,LAYER_LOCK_FN1 ,LAYER_LOCK_NAV         ,        KC_NO   ,KC_HOME                       ,KC_NO                         ,KC_END                     ,KC_NO    ,KC_TRNS   ,KC_NO   ,
             KC_NO),
@@ -865,6 +871,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+#ifdef BACKLIGHT_ENABLE
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t current_state = get_highest_layer(state);
 
@@ -877,6 +884,24 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     return state;
 }
+#endif
+
+#ifdef RGB_MATRIX_ENABLE
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    const uint8_t caps_led_index = 23;
+
+    // Handle CAPS
+    if (host_keyboard_led_state().caps_lock) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 255, 255, 255);
+    } else {
+        RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 0, 0, 0);
+    }
+
+    // TODO: Handle layers
+
+    return false;
+}
+#endif
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
