@@ -887,17 +887,49 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
+const uint8_t caps_led_index = 23;
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    const uint8_t caps_led_index = 23;
+    bool layer_has_caps = true;
+    uint8_t layer = get_highest_layer(layer_state);
+    if (layer > BASE) {
+        layer_has_caps = false;
+        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+                uint16_t keycode = keymap_key_to_keycode(layer, (keypos_t){col,row});
+                if (keycode == KC_CAPS_LOCK) {
+                    layer_has_caps = true;
+                }
 
-    // Handle CAPS
-    if (host_keyboard_led_state().caps_lock) {
+                uint8_t index = g_led_config.matrix_co[row][col];
+                if (index >= led_min && index < led_max && index != NO_LED && keycode > KC_TRNS) {
+                    switch (layer) {
+                        case NAV:
+                            rgb_matrix_set_color(index, RGB_AZURE);
+                        case FN1:
+                            rgb_matrix_set_color(index, RGB_SPRINGGREEN);
+                        case FN2:
+                            rgb_matrix_set_color(index, RGB_PURPLE);
+                        case FN_DEBUG:
+                            rgb_matrix_set_color(index, RGB_ORANGE);
+                        case UTIL:
+                            rgb_matrix_set_color(index, RGB_MAGENTA);
+                        case ALT_TAB_SWITCH:
+                        case CTRL_TAB_SWITCH:
+                        case WIN_TAB_SWITCH:
+                            rgb_matrix_set_color(index, RGB_RED);
+                        case STARCRAFT_PLAY:
+                            rgb_matrix_set_color(index, RGB_YELLOW);
+                    }
+                }
+            }
+        }
+    }
+
+    if (layer_has_caps && host_keyboard_led_state().caps_lock) {
         RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 255, 255, 255);
     } else {
         RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 0, 0, 0);
     }
-
-    // TODO: Handle layers
 
     return false;
 }
