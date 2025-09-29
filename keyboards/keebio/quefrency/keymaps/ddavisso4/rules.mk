@@ -1,7 +1,9 @@
+# DEBUG
+CONSOLE_ENABLE = no
+
 # BACKLIGHT_ENABLE managed by keyboard rev
 COMBO_ENABLE = yes
 COMMAND_ENABLE = no
-CONSOLE_ENABLE = no
 DEBOUNCE_TYPE = sym_eager_pk
 DYNAMIC_TAPPING_TERM_ENABLE = yes
 EXTRAKEY_ENABLE = yes
@@ -23,7 +25,9 @@ ifeq ($(PLATFORM_KEY),avr)
 	LTO_ENABLE = yes
 
 # I want this disabled for rev2/3 to save space and enabled for rev6
-# (NOTE: this really isn't a function of CPU architecture but I couldn't find something better that was available when this file is evaluated)
+# NOTE: this really isn't a function of CPU architecture
+# but I couldn't find something better that was available
+# when this file is evaluated to differentiate rev2/3 and rev6
 	ENCODER_ENABLE = no
 
 # technically could move this to global since I want it disabled for both rev2/3 and rev6 has it disabled by default

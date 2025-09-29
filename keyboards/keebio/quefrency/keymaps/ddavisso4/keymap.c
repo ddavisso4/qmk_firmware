@@ -40,7 +40,8 @@ enum custom_keycodes {
     MC_START_CTAB,
     MC_CLR_CTRL_TAB,
     TOGGLE_DEBUG,
-    MOVE_FN_LAYER
+    MOVE_FN_LAYER,
+    X_RGB_DISABLE
 };
 
 /**
@@ -67,9 +68,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_all(
             KC_NO, KC_NO,
 KC_GRV   ,KC_1                   ,KC_2    ,KC_3    ,KC_4          ,KC_5    ,KC_6        ,         KC_7     ,KC_8           ,KC_9          ,KC_0      ,KC_MINS                ,KC_EQL     ,KC_BSPC   ,KC_BSPC  ,
-            KC_NO, KC_NO, KC_NO,
+            KC_MUTE, KC_NO, KC_NO,
 KC_TAB   ,KC_Q                   ,KC_W    ,KC_E    ,KC_R          ,KC_T                 ,         KC_Y     ,KC_U           ,KC_I          ,KC_O      ,KC_P                   ,KC_LBRC    ,KC_RBRC   ,KC_BSLS  ,
-            KC_NO, KC_NO, KC_NO,
+            X_RGB_DISABLE, KC_NO, KC_NO,
 KC_CAPS  ,KC_A                   ,KC_S    ,KC_D    ,KC_F          ,KC_G                 ,         KC_H     ,KC_J           ,KC_K          ,KC_L      ,KC_SCLN                ,KC_QUOT    ,KC_ENTER  ,KC_ENTER ,
             KC_NO, KC_NO, KC_NO,
 KC_LSFT  ,MT(MOD_LSFT, KC_BSLS)  ,KC_Z    ,KC_X    ,KC_C          ,KC_V    ,KC_B        ,         KC_N     ,KC_M           ,KC_COMM       ,KC_DOT    ,MT(MOD_RSFT, KC_SLSH)  ,KC_RSFT    ,MO(UTIL)  ,
@@ -454,6 +455,17 @@ void keyboard_pre_init_user(void) {
     double_tap_repeat_pending = false;
     double_tap_repeat_active = false;
     double_tap_timer = double_tap_timeout_ms;
+}
+
+void keyboard_post_init_user(void) {
+#ifdef RGB_MATRIX_ENABLE
+    rgb_matrix_sethsv_noeeprom(HSV_OFF);
+#endif
+#ifdef CONSOLE_ENABLE
+  debug_enable = true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+#endif
 }
 
 void matrix_scan_user(void) {
@@ -853,6 +865,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 return false;
             }
+
+        case X_RGB_DISABLE:
+            #ifdef RGB_MATRIX_ENABLE
+            if (record->event.pressed) {
+                rgb_matrix_toggle_noeeprom();
+            }
+            #endif
+            return false;
     }
 
     return true;
@@ -871,68 +891,85 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-#ifdef BACKLIGHT_ENABLE
 layer_state_t layer_state_set_user(layer_state_t state) {
-    uint8_t current_state = get_highest_layer(state);
+    uint8_t current_layer = get_highest_layer(state);
 
-    if(current_state > BASE && current_state != STARCRAFT_PLAY) {
+#ifdef CONSOLE_ENABLE
+    uprintf("LAYER: 0x%04X\n", current_layer);
+#endif
+
+#ifdef BACKLIGHT_ENABLE
+    if(current_layer > BASE && current_layer != STARCRAFT_PLAY) {
         backlight_enable();
     }
     else {
         backlight_disable();
     }
-
-    return state;
-}
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
-const uint8_t caps_led_index = 23;
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    bool layer_has_caps = true;
-    uint8_t layer = get_highest_layer(layer_state);
-    if (layer > BASE) {
-        layer_has_caps = false;
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint16_t keycode = keymap_key_to_keycode(layer, (keypos_t){col,row});
-                if (keycode == KC_CAPS_LOCK) {
-                    layer_has_caps = true;
-                }
-
-                uint8_t index = g_led_config.matrix_co[row][col];
-                if (index >= led_min && index < led_max && index != NO_LED && keycode > KC_TRNS) {
-                    switch (layer) {
-                        case NAV:
-                            rgb_matrix_set_color(index, RGB_AZURE);
-                        case FN1:
-                            rgb_matrix_set_color(index, RGB_SPRINGGREEN);
-                        case FN2:
-                            rgb_matrix_set_color(index, RGB_PURPLE);
-                        case FN_DEBUG:
-                            rgb_matrix_set_color(index, RGB_ORANGE);
-                        case UTIL:
-                            rgb_matrix_set_color(index, RGB_MAGENTA);
-                        case ALT_TAB_SWITCH:
-                        case CTRL_TAB_SWITCH:
-                        case WIN_TAB_SWITCH:
-                            rgb_matrix_set_color(index, RGB_RED);
-                        case STARCRAFT_PLAY:
-                            rgb_matrix_set_color(index, RGB_YELLOW);
-                    }
-                }
-            }
-        }
+    switch (current_layer) {
+        case BASE:
+            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            break;
+        case NAV:
+            rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+            break;
+        case FN1:
+            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+            break;
+        case FN2:
+            rgb_matrix_sethsv_noeeprom(HSV_PURPLE);
+            break;
+        case FN_DEBUG:
+            rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
+            break;
+        case UTIL:
+            rgb_matrix_sethsv_noeeprom(HSV_MAGENTA);
+            break;
+        case ALT_TAB_SWITCH:
+        case CTRL_TAB_SWITCH:
+        case WIN_TAB_SWITCH:
+            rgb_matrix_sethsv_noeeprom(HSV_CORAL);
+            break;
+        case STARCRAFT_PLAY:
+            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            break;
+        default:
+            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            break;
     }
+#endif
 
-    if (layer_has_caps && host_keyboard_led_state().caps_lock) {
-        RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 255, 255, 255);
-    } else {
-        RGB_MATRIX_INDICATOR_SET_COLOR(caps_led_index, 0, 0, 0);
+    return state;
+}
+
+#ifdef RGB_MATRIX_ENABLE
+bool led_update_user(led_t led_state) {
+#ifdef CONSOLE_ENABLE
+        uprintf("LED: Handling led state update\n");
+#endif
+
+    if (led_state.caps_lock) {
+        rgb_matrix_sethsv_noeeprom(HSV_RED);
+    }
+    else if (get_highest_layer(layer_state) == BASE) {
+        rgb_matrix_sethsv_noeeprom(HSV_OFF);
     }
 
     return false;
 }
+
+// TODO: perhaps improve this in the future (currently just turning keyboard red for caps)
+// const uint8_t caps_lock_index = 21;
+// bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+//     if (host_keyboard_led_state().caps_lock) {
+//         RGB_MATRIX_INDICATOR_SET_COLOR(caps_lock_index, 255, 255, 255); // assuming caps lock is at led #5
+//     } else {
+//         RGB_MATRIX_INDICATOR_SET_COLOR(5, 0, 0, 0);
+//     }
+//     return false;
+// }
 #endif
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
