@@ -324,6 +324,12 @@ static uint16_t double_tap_key;
 static bool mod_tap_special_is_pressed[2];
 static bool mod_tap_special_is_bad_state[2];
 
+#ifdef RGB_MATRIX_ENABLE
+static uint16_t current_hue;
+static uint8_t current_sat;
+static uint8_t current_val;
+#endif
+
 void win_switch_app(uint16_t num) {
     if(layer_locked) {
         return;
@@ -444,6 +450,22 @@ bool should_cancel_due_to_bad_release_bug(uint16_t keycode, keyrecord_t *record)
 
     return false;
 }
+
+#ifdef RGB_MATRIX_ENABLE
+void rgb_set_hsv_if_enabled(uint16_t hue, uint8_t sat, uint8_t val) {
+    current_hue = hue;
+    current_sat = sat;
+    current_val = val;
+
+    if (rgb_matrix_config.enable) {
+        rgb_matrix_sethsv_noeeprom(hue, sat, val);
+    }
+}
+
+void rgb_apply_hsv_if_enabled(void) {
+    rgb_set_hsv_if_enabled(current_hue, current_sat, current_val);
+}
+#endif
 
 
 /**
@@ -870,6 +892,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             #ifdef RGB_MATRIX_ENABLE
             if (record->event.pressed) {
                 rgb_matrix_toggle_noeeprom();
+                rgb_apply_hsv_if_enabled();
             }
             #endif
             return false;
@@ -910,33 +933,33 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #ifdef RGB_MATRIX_ENABLE
     switch (current_layer) {
         case BASE:
-            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            rgb_set_hsv_if_enabled(HSV_OFF);
             break;
         case NAV:
-            rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+            rgb_set_hsv_if_enabled(HSV_AZURE);
             break;
         case FN1:
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+            rgb_set_hsv_if_enabled(HSV_GREEN);
             break;
         case FN2:
-            rgb_matrix_sethsv_noeeprom(HSV_PURPLE);
+            rgb_set_hsv_if_enabled(HSV_PURPLE);
             break;
         case FN_DEBUG:
-            rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
+            rgb_set_hsv_if_enabled(HSV_ORANGE);
             break;
         case UTIL:
-            rgb_matrix_sethsv_noeeprom(HSV_MAGENTA);
+            rgb_set_hsv_if_enabled(HSV_MAGENTA);
             break;
         case ALT_TAB_SWITCH:
         case CTRL_TAB_SWITCH:
         case WIN_TAB_SWITCH:
-            rgb_matrix_sethsv_noeeprom(HSV_CORAL);
+            rgb_set_hsv_if_enabled(HSV_CORAL);
             break;
         case STARCRAFT_PLAY:
-            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            rgb_set_hsv_if_enabled(HSV_OFF);
             break;
         default:
-            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            rgb_set_hsv_if_enabled(HSV_OFF);
             break;
     }
 #endif
@@ -951,10 +974,10 @@ bool led_update_user(led_t led_state) {
 #endif
 
     if (led_state.caps_lock) {
-        rgb_matrix_sethsv_noeeprom(HSV_RED);
+        rgb_set_hsv_if_enabled(HSV_RED);
     }
     else if (get_highest_layer(layer_state) == BASE) {
-        rgb_matrix_sethsv_noeeprom(HSV_OFF);
+        rgb_set_hsv_if_enabled(HSV_OFF);
     }
 
     return false;
