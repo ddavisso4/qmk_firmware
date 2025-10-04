@@ -8,9 +8,9 @@
 #define COMBO_STRICT_TIMER
 #define COMBO_TERM 55
 #if PLATFORM_KEY == chibios
-#define DEBOUNCE 10
+#define DEBOUNCE 17
 #else
-#define DEBOUNCE 15
+#define DEBOUNCE 10
 #endif
 #define EXTRA_SHORT_COMBOS
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
