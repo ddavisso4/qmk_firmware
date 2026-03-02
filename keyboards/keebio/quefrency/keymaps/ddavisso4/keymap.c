@@ -922,7 +922,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #endif
 
 #ifdef BACKLIGHT_ENABLE
-    if(current_layer > BASE && current_layer != STARCRAFT_PLAY) {
+    if((current_layer > BASE && current_layer != STARCRAFT_PLAY) || debug_mode_active) {
         backlight_enable();
     }
     else {
@@ -931,36 +931,41 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
-    switch (current_layer) {
-        case BASE:
-            rgb_set_hsv_if_enabled(HSV_OFF);
-            break;
-        case NAV:
-            rgb_set_hsv_if_enabled(HSV_AZURE);
-            break;
-        case FN1:
-            rgb_set_hsv_if_enabled(HSV_GREEN);
-            break;
-        case FN2:
-            rgb_set_hsv_if_enabled(HSV_PURPLE);
-            break;
-        case FN_DEBUG:
-            rgb_set_hsv_if_enabled(HSV_ORANGE);
-            break;
-        case UTIL:
-            rgb_set_hsv_if_enabled(HSV_MAGENTA);
-            break;
-        case ALT_TAB_SWITCH:
-        case CTRL_TAB_SWITCH:
-        case WIN_TAB_SWITCH:
-            rgb_set_hsv_if_enabled(HSV_CORAL);
-            break;
-        case STARCRAFT_PLAY:
-            rgb_set_hsv_if_enabled(HSV_OFF);
-            break;
-        default:
-            rgb_set_hsv_if_enabled(HSV_OFF);
-            break;
+    if (debug_mode_active) {
+        rgb_set_hsv_if_enabled(HSV_ORANGE);
+    }
+    else {
+        switch (current_layer) {
+            case BASE:
+                rgb_set_hsv_if_enabled(HSV_OFF);
+                break;
+            case NAV:
+                rgb_set_hsv_if_enabled(HSV_AZURE);
+                break;
+            case FN1:
+                rgb_set_hsv_if_enabled(HSV_GREEN);
+                break;
+            case FN2:
+                rgb_set_hsv_if_enabled(HSV_PURPLE);
+                break;
+            case FN_DEBUG:
+                rgb_set_hsv_if_enabled(HSV_ORANGE);
+                break;
+            case UTIL:
+                rgb_set_hsv_if_enabled(HSV_MAGENTA);
+                break;
+            case ALT_TAB_SWITCH:
+            case CTRL_TAB_SWITCH:
+            case WIN_TAB_SWITCH:
+                rgb_set_hsv_if_enabled(HSV_CORAL);
+                break;
+            case STARCRAFT_PLAY:
+                rgb_set_hsv_if_enabled(HSV_OFF);
+                break;
+            default:
+                rgb_set_hsv_if_enabled(HSV_OFF);
+                break;
+        }
     }
 #endif
 
